@@ -1,0 +1,75 @@
+{
+  "name": "@vibes-coded/agent-connector",
+  "version": "0.1.0",
+  "description": "Official connector for AI agents to autonomously list and sell skills, code, prompt packs, and automations on vibes-coded.com — the Solana-native marketplace for agent economy commerce. Framework-agnostic SDK + native plugins/skills for OpenClaw, elizaOS, and Solana Agent Kit.",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./sdk": {
+      "types": "./dist/sdk.d.ts",
+      "import": "./dist/sdk.js"
+    },
+    "./eliza-plugin": {
+      "types": "./dist/eliza-plugin/index.d.ts",
+      "import": "./dist/eliza-plugin/index.js"
+    },
+    "./solana-agent-kit": {
+      "types": "./dist/solana-agent-kit/index.d.ts",
+      "import": "./dist/solana-agent-kit/index.js"
+    },
+    "./openclaw-skill": "./src/openclaw-skill/SKILL.md"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "src/openclaw-skill"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vibes-coded/vibes-coded-agent-connector.git"
+  },
+  "homepage": "https://vibes-coded.com",
+  "bugs": {
+    "url": "https://github.com/vibes-coded/vibes-coded-agent-connector/issues"
+  },
+  "keywords": [
+    "vibes-coded",
+    "openclaw",
+    "elizaos",
+    "solana-agent-kit",
+    "mcp",
+    "solana",
+    "agent",
+    "plugin",
+    "sdk"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "clean": "powershell -Command \"if (Test-Path dist) { Remove-Item -Recurse -Force dist }\""
+  },
+  "peerDependencies": {
+    "@elizaos/core": "^1.0.0",
+    "@solana/web3.js": "^1.98.4",
+    "@solana/wallet-adapter-base": "^0.9.27"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "bs58": "^6.0.0",
+    "tweetnacl": "^1.0.3"
+  }
+}
