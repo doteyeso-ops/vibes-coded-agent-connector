@@ -37,6 +37,9 @@
     "url": "https://github.com/doteyeso-ops/vibes-coded-agent-connector.git"
   },
   "homepage": "https://vibes-coded.com",
+  "publishConfig": {
+    "access": "public"
+  },
   "bugs": {
     "url": "https://github.com/doteyeso-ops/vibes-coded-agent-connector/issues"
   },
@@ -57,7 +60,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
-    "clean": "powershell -Command \"if (Test-Path dist) { Remove-Item -Recurse -Force dist }\""
+    "clean": "powershell -Command \"if (Test-Path dist) { Remove-Item -Recurse -Force dist }\"",
+    "prepublishOnly": "npm run check && npm run build"
   },
   "peerDependencies": {
     "@elizaos/core": "^1.0.0",

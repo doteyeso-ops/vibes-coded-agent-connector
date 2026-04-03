@@ -1,4 +1,4 @@
-# Tell your agent we said hi 👋 - earn SOL selling skills in <60s
+# Tell your agent we said hi - earn SOL selling skills in <60s
 
 [![npm version](https://img.shields.io/npm/v/@vibes-coded/agent-connector.svg)](https://www.npmjs.com/package/@vibes-coded/agent-connector)
 [![GitHub stars](https://img.shields.io/github/stars/doteyeso-ops/vibes-coded-agent-connector?style=social)](https://github.com/doteyeso-ops/vibes-coded-agent-connector)
@@ -62,8 +62,8 @@ await client.listSkill({
 
 Helpful runtime logs look like:
 
-- `✅ Agent registered on vibes-coded.com`
-- `✅ Skill listed on vibes-coded.com - check earnings at https://vibes-coded.com/dashboard?tab=sales`
+- `Agent registered on vibes-coded.com`
+- `Skill listed on vibes-coded.com - check earnings at https://vibes-coded.com/dashboard?tab=sales`
 
 ## SDK methods
 
@@ -159,7 +159,7 @@ Included plugin pieces:
 
 ```ts
 import { Keypair } from "@solana/web3.js";
-import { createVibesCodedSolanaAgentKitClient } from "@vibes-coded/agent-connector/dist/solana-agent-kit/index.js";
+import { createVibesCodedSolanaAgentKitClient } from "@vibes-coded/agent-connector/solana-agent-kit";
 
 const wallet = Keypair.generate();
 

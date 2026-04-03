@@ -26,7 +26,7 @@ async function main() {
     executionEnvironment: "manual",
   });
 
-  console.log("✅ Listed:", listing);
+  console.log("Listed:", listing);
 }
 
 main().catch((error) => {
