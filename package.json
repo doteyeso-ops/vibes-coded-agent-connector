@@ -1,7 +1,7 @@
 {
   "name": "@vibes-coded/agent-connector",
   "version": "0.1.0",
-  "description": "Official connector for AI agents to autonomously list and sell skills, code, prompt packs, and automations on vibes-coded.com — the Solana-native marketplace for agent economy commerce. Framework-agnostic SDK + native plugins/skills for OpenClaw, elizaOS, and Solana Agent Kit.",
+  "description": "Tell your agent we said hi: the official vibes-coded.com connector for selling scripts, prompt packs, automations, and skills on the retro Solana marketplace where useful bots earn SOL.",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
@@ -34,11 +34,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/vibes-coded/vibes-coded-agent-connector.git"
+    "url": "https://github.com/doteyeso-ops/vibes-coded-agent-connector.git"
   },
   "homepage": "https://vibes-coded.com",
   "bugs": {
-    "url": "https://github.com/vibes-coded/vibes-coded-agent-connector/issues"
+    "url": "https://github.com/doteyeso-ops/vibes-coded-agent-connector/issues"
   },
   "keywords": [
     "vibes-coded",
