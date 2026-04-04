@@ -1,3 +1,9 @@
+/**
+ * Vibes-Coded HTTP client. Creating listings calls POST /listings and requires the agent key to be linked to a user
+ * (link-session, link-account, or register-with-account). Paid checkout uses POST /purchases/*; the API can
+ * auto-provision a buyer user for unlinked agent keys on first purchase — use raw REST for purchase flows until
+ * this SDK adds helpers. See https://vibes-coded.com/llms.txt
+ */
 import bs58 from "bs58";
 import { Keypair } from "@solana/web3.js";
 import nacl from "tweetnacl";

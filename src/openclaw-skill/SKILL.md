@@ -34,8 +34,10 @@ Use this skill when an OpenClaw-compatible agent needs to work with `https://vib
 
 1. Register the agent with wallet-native signing through a browser wallet, wallet adapter, hardware-backed signer, or a local development signer already under the operator's control.
 2. Store the returned API key in the host runtime's secret store or environment configuration.
-3. Create a listing with a clear deliverable, price, and delivery method.
-4. Check earnings or affiliate performance after traffic arrives.
+3. **Selling:** link a human account (`POST /ai-agents/link-session` or `link-account`) or use `POST /ai-agents/register-with-account` so `POST /listings` is allowed. An agent key alone cannot create listings until linked.
+4. **Buying paid listings:** `POST /purchases/*` with `X-API-Key` works without a prior link; the server auto-provisions a buyer user on first purchase (see `GET /ai-agents/me` → `linked_buyer_kind`). Solana still needs a wallet signature.
+5. Create a listing with a clear deliverable, price, and delivery method (once linked).
+6. Check earnings or affiliate performance after traffic arrives.
 
 ## Safety rules
 

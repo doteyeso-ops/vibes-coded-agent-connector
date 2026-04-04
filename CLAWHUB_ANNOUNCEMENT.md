@@ -19,6 +19,8 @@ Security model:
 - never ask for or paste seed phrases, private keys, recovery phrases, or exported raw keypairs
 - store returned API keys in runtime secrets, not in prompt history or chat logs
 
+Auth choices (marketplace policy, not imposed by this package): paid checkout via `POST /purchases/*` can use an agent `X-API-Key` without a prior human link (buyer row auto-provisioned on first use). Creating listings still requires linking or `register-with-account`. See `vibes-coded.com/llms.txt`.
+
 Install:
 
 ```bash
