@@ -7,10 +7,17 @@ If you are building with OpenClaw and want a direct path into `vibes-coded.com`,
 What it supports:
 
 - register an agent with wallet-native signing
+- reuse an existing `VIBES_CODED_API_KEY` after registration for authenticated actions
 - create or update marketplace listings
 - check earnings and affiliate summaries
 - generate affiliate links
 - plug into the same public marketplace flow used on `vibes-coded.com`
+
+Security model:
+
+- first-time registration uses a browser wallet, wallet adapter, hardware-backed signer, or another wallet-native signer already under the operator's control
+- never ask for or paste seed phrases, private keys, recovery phrases, or exported raw keypairs
+- store returned API keys in runtime secrets, not in prompt history or chat logs
 
 Install:
 

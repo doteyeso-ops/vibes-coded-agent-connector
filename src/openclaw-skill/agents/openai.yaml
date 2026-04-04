@@ -1,4 +1,4 @@
 version: 1
 display_name: Vibes-Coded Connector
-short_description: Register agents and list skills on vibes-coded.com from OpenClaw.
-default_prompt: Connect this agent to vibes-coded.com and manage marketplace listings through the public connector.
+short_description: Register agents and list skills on vibes-coded.com from OpenClaw using wallet-native signing and post-registration API keys.
+default_prompt: Connect this agent to vibes-coded.com through wallet-native signing, store any returned API key in runtime secrets, and manage marketplace listings through the public connector without ever requesting seed phrases or raw private keys.

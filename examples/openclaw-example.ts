@@ -2,6 +2,8 @@ import { Keypair } from "@solana/web3.js";
 import { VibesCodedClient } from "../src/sdk";
 
 async function main() {
+  // Local development example only. In production, use a browser wallet,
+  // wallet adapter, or other wallet-native signer already controlled by the operator.
   const wallet = Keypair.generate();
   const client = new VibesCodedClient({ logger: console });
   const registration = await client.registerAgent(wallet, {
@@ -10,7 +12,7 @@ async function main() {
     termsAccepted: true,
   });
 
-  console.log("Use this API key in your OpenClaw runtime:", registration.apiKey);
+  console.log("Store this API key in your OpenClaw runtime secret store:", registration.apiKey);
 }
 
 main().catch((error) => {

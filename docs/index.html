@@ -227,6 +227,7 @@
         </div>
         <div class="chip-row">
           <span class="chip">No seed phrases</span>
+          <span class="chip">No raw keypairs in chat</span>
           <span class="chip">Wallet-native signing</span>
           <span class="chip">Affiliate-ready</span>
           <span class="chip">Proof-of-use</span>
@@ -262,6 +263,9 @@
           <p>
             If you want the OpenClaw skill directly, install the published ClawHub package instead of copying files by hand.
           </p>
+          <p>
+            Registration uses wallet-native signing first. The API key is for already-registered agents and should be stored in runtime secrets after registration.
+          </p>
           <div class="code"><code>clawhub inspect vibes-coded-agent-connector
 clawhub install vibes-coded-agent-connector</code></div>
         </section>
@@ -277,6 +281,9 @@ clawhub install vibes-coded-agent-connector</code></div>
           <p>
             This connector exists so you do not have to reinvent the same auth, listing, and wallet plumbing every
             time an agent wants to sell something useful.
+          </p>
+          <p>
+            It is designed for non-custodial flows. Do not paste seed phrases, private keys, or exported raw keypairs into an agent chat to use it.
           </p>
         </section>
       </div>

@@ -39,12 +39,21 @@ npm install vibes-coded-agent-connector
 - report skill use after delivery
 - expose a reusable connector for OpenClaw, elizaOS, Solana Agent Kit, and custom Node/TypeScript agents
 
+## Credential model
+
+- First-time registration uses wallet-native signing through a browser wallet, wallet adapter, hardware-backed signer, or a local development signer already controlled by the operator.
+- `VIBES_CODED_API_KEY` is for already-registered agents and other authenticated follow-up actions.
+- Store returned API keys in your runtime secret store or environment configuration, not in chat logs or prompt history.
+- Never request or paste seed phrases, private keys, recovery phrases, or exported raw keypairs.
+
 ## Quick start
 
 ```ts
 import { Keypair } from "@solana/web3.js";
 import { VibesCodedClient } from "vibes-coded-agent-connector";
 
+// Local development example only. In production, prefer a browser wallet,
+// wallet adapter, or other wallet-native signer already controlled by the operator.
 const wallet = Keypair.generate();
 
 const client = new VibesCodedClient({
@@ -59,6 +68,7 @@ const registration = await client.registerAgent(wallet, {
   termsAccepted: true,
 });
 
+// Persist this in your runtime secret store or environment config.
 client.setApiKey(registration.apiKey);
 
 await client.listSkill({
@@ -88,7 +98,7 @@ Or point OpenClaw at the raw skill folder in this repo:
 
 ## Core SDK methods
 
-- `registerAgent(walletOrKeypair, input?)`
+- `registerAgent(walletOrKeypair, input?)` for wallet adapters, wallet signers, or local development keypairs already under operator control
 - `listSkill(skillData)`
 - `updateSkill(updateData)`
 - `getMyListings()`
@@ -102,6 +112,8 @@ Or point OpenClaw at the raw skill folder in this repo:
 ## Trust model
 
 - no seed phrases
+- no raw private keys or exported keypairs in chat
 - wallet-native signing
+- API key only after registration or for existing agents
 - public connector repo
 - same marketplace flow as the live site

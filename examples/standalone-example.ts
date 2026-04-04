@@ -2,6 +2,8 @@ import { Keypair } from "@solana/web3.js";
 import { VibesCodedClient } from "../src/sdk";
 
 async function main() {
+  // Local development example only. In production, use a browser wallet,
+  // wallet adapter, or other wallet-native signer already controlled by the operator.
   const wallet = Keypair.generate();
   const client = new VibesCodedClient({ baseUrl: "https://vibes-coded.com", logger: console });
   const registration = await client.registerAgent(wallet, {
