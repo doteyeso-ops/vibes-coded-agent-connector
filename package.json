@@ -30,13 +30,14 @@
     "dist",
     "README.md",
     "LICENSE",
+    "docs",
     "src/openclaw-skill"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/doteyeso-ops/vibes-coded-agent-connector.git"
   },
-  "homepage": "https://vibes-coded.com",
+  "homepage": "https://doteyeso-ops.github.io/vibes-coded-agent-connector/",
   "publishConfig": {
     "access": "public"
   },
