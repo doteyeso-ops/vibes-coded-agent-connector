@@ -17,10 +17,10 @@ import type {
   WalletOrKeypair,
   WalletSignResult,
   WalletSigner,
-} from "./types";
-import { VibesCodedError } from "./types";
+} from "./types.js";
+import { VibesCodedError } from "./types.js";
 
-const DEFAULT_BASE_URL = "https://vibes-coded.com";
+const DEFAULT_BASE_URL = "https://vibes-coded.com/api";
 const DEFAULT_USER_AGENT = "@vibes-coded/agent-connector/0.1.0";
 
 const DEFAULT_ENDPOINTS: EndpointConfig = {
@@ -35,7 +35,7 @@ const DEFAULT_ENDPOINTS: EndpointConfig = {
   updateListing: (listingId) => `/listings/${listingId}`,
   myListings: "/listings/user/me",
   myEarnings: "/purchases/seller/me",
-  agentFeed: "/api/v1/agent-feed",
+  agentFeed: "/v1/agent-feed",
 };
 
 const defaultLogger: LoggerLike = {
@@ -55,6 +55,52 @@ const defaultLogger: LoggerLike = {
 
 function trimTrailingSlash(value: string): string {
   return value.replace(/\/+$/, "");
+}
+
+function normalizeApiBaseUrl(value: string): string {
+  const trimmed = trimTrailingSlash(value);
+  try {
+    const parsed = new URL(trimmed);
+    if (!parsed.pathname || parsed.pathname === "/") {
+      parsed.pathname = "/api";
+      return trimTrailingSlash(parsed.toString());
+    }
+    return trimmed;
+  } catch {
+    return trimmed;
+  }
+}
+
+function resolveEndpoint(baseUrl: string, path: string): string {
+  const [rawPath, rawQuery = ""] = path.split("?", 2);
+  const normalizedPath = rawPath.startsWith("/") ? rawPath : `/${rawPath}`;
+  const querySuffix = rawQuery ? `?${rawQuery}` : "";
+  try {
+    const parsed = new URL(baseUrl);
+    const basePath = trimTrailingSlash(parsed.pathname || "");
+    const hasApiBase = basePath === "/api" || basePath.endsWith("/api");
+    const wantsApiPath = normalizedPath === "/api" || normalizedPath.startsWith("/api/");
+
+    if (hasApiBase && wantsApiPath) {
+      parsed.pathname = `${basePath}${normalizedPath.replace(/^\/api/, "")}`;
+    } else if (!hasApiBase && !wantsApiPath) {
+      parsed.pathname = `${basePath}/api${normalizedPath}`;
+    } else {
+      parsed.pathname = `${basePath}${normalizedPath}`;
+    }
+    parsed.search = querySuffix;
+
+    return parsed.toString();
+  } catch {
+    const trimmedBase = trimTrailingSlash(baseUrl);
+    if (trimmedBase.endsWith("/api") && normalizedPath.startsWith("/api/")) {
+      return `${trimmedBase}${normalizedPath.replace(/^\/api/, "")}${querySuffix}`;
+    }
+    if (!trimmedBase.endsWith("/api") && !normalizedPath.startsWith("/api/")) {
+      return `${trimmedBase}/api${normalizedPath}${querySuffix}`;
+    }
+    return `${trimmedBase}${normalizedPath}${querySuffix}`;
+  }
 }
 
 function toNullableString(value: unknown): string | null {
@@ -136,7 +182,7 @@ export class VibesCodedClient {
   private readonly walletSigner?: WalletSigner;
 
   constructor(options: VibesCodedClientOptions = {}) {
-    this.baseUrl = trimTrailingSlash(options.baseUrl || DEFAULT_BASE_URL);
+    this.baseUrl = normalizeApiBaseUrl(options.baseUrl || DEFAULT_BASE_URL);
     this.apiKey = options.apiKey;
     this.logger = options.logger || defaultLogger;
     this.userAgent = options.userAgent || DEFAULT_USER_AGENT;
@@ -181,7 +227,7 @@ export class VibesCodedClient {
       walletPurpose?: string;
     } = {}
   ): Promise<T> {
-    const endpoint = `${this.baseUrl}${path.startsWith("/") ? path : `/${path}`}`;
+    const endpoint = resolveEndpoint(this.baseUrl, path);
     const headers = new Headers({
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -221,10 +267,16 @@ export class VibesCodedClient {
 
     if (!response.ok) {
       const detail = parsed?.detail ?? parsed;
-      const message =
+      const detailMessage =
         typeof detail === "string"
           ? detail
-          : `Vibes-Coded returned ${response.status} for ${path}.`;
+          : typeof detail?.error === "string"
+            ? detail.error
+            : typeof detail?.message === "string"
+              ? detail.message
+              : null;
+      const message =
+        detailMessage || `Vibes-Coded returned ${response.status} for ${path}.`;
       this.logger.error("Vibes-Coded request failed", { endpoint, status: response.status, detail });
       throw new VibesCodedError(message, {
         status: response.status,
@@ -253,7 +305,7 @@ export class VibesCodedClient {
     });
     walletClient.apiKey = result.api_key;
     this.apiKey = result.api_key;
-    this.logger.info("✅ Agent registered on vibes-coded.com", {
+    this.logger.info("Agent registered on vibes-coded.com", {
       agentId: result.agent_id,
       username: result.username,
     });
@@ -303,7 +355,7 @@ export class VibesCodedClient {
       requireApiKey: true,
       walletPurpose: "list_skill",
     });
-    this.logger.info(`✅ Skill listed on vibes-coded.com — check earnings at ${this.baseUrl}/dashboard?tab=sales`, {
+    this.logger.info("Skill listed on vibes-coded.com - check earnings at https://vibes-coded.com/dashboard?tab=sales", {
       listingId: result.id,
       title: skill.title,
     });
@@ -361,7 +413,7 @@ export class VibesCodedClient {
     const sales = Array.isArray(result.sales) ? result.sales : [];
     return {
       totalGrossCents: sales.reduce((sum: number, sale: any) => sum + Number(sale.amount_cents || 0), 0),
-      completedSales: sales.filter((sale: any) => sale.payment_status === "succeeded").length,
+      completedSales: sales.filter((sale: any) => sale.stripe_payment_status === "succeeded").length,
       pendingDeliveries: sales.filter((sale: any) => sale.delivery_status !== "delivered").length,
       recentSales: sales.slice(0, 10),
     };
@@ -375,9 +427,13 @@ export class VibesCodedClient {
     return this.request<Record<string, unknown>>("GET", this.endpoints.affiliateSummary, { requireApiKey: true });
   }
 
-  async getAffiliateLink(listingId: string): Promise<{ affiliateCode: string; url: string }> {
+  async getAffiliateLink(listingId: string): Promise<{ affiliateCode: string; listingUrl: string; checkoutUrl: string }> {
     const result = await this.request<any>("GET", this.endpoints.affiliateLink(listingId), { requireApiKey: true });
-    return { affiliateCode: String(result.affiliate_code), url: String(result.url) };
+    return {
+      affiliateCode: String(result.affiliate_code),
+      listingUrl: String(result.listing_url),
+      checkoutUrl: String(result.checkout_url),
+    };
   }
 
   async reportSkillUse(listingId: string, purchaseId: string, note?: string): Promise<Record<string, unknown>> {

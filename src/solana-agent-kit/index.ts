@@ -1,5 +1,5 @@
-import { VibesCodedClient, signerFromWallet } from "../sdk";
-import type { WalletOrKeypair } from "../types";
+import { VibesCodedClient, signerFromWallet } from "../sdk.js";
+import type { WalletOrKeypair } from "../types.js";
 
 export function createVibesCodedSolanaAgentKitClient(
   walletOrKeypair: WalletOrKeypair,

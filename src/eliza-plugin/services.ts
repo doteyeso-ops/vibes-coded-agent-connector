@@ -1,5 +1,5 @@
-import { VibesCodedClient } from "../sdk";
-import type { ElizaRuntimeLike, ElizaServiceLike } from "../types";
+import { VibesCodedClient } from "../sdk.js";
+import type { ElizaRuntimeLike, ElizaServiceLike } from "../types.js";
 
 export class VibesCodedService implements ElizaServiceLike {
   name = "vibes-coded-service";

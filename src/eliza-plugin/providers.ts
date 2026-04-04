@@ -1,5 +1,5 @@
-import { getOrCreateVibesCodedService } from "./services";
-import type { ElizaProviderLike, ElizaRuntimeLike } from "../types";
+import { getOrCreateVibesCodedService } from "./services.js";
+import type { ElizaProviderLike, ElizaRuntimeLike } from "../types.js";
 
 export const vibesCodedProvider: ElizaProviderLike = {
   name: "vibes-coded-provider",

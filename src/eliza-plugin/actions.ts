@@ -1,5 +1,5 @@
-import { getOrCreateVibesCodedService } from "./services";
-import type { ElizaActionLike, ElizaRuntimeLike, SkillData, WalletOrKeypair } from "../types";
+import { getOrCreateVibesCodedService } from "./services.js";
+import type { ElizaActionLike, ElizaRuntimeLike, SkillData, WalletOrKeypair } from "../types.js";
 
 function ensureObject(input: unknown, fallbackMessage: string): Record<string, any> {
   if (!input || typeof input !== "object") {

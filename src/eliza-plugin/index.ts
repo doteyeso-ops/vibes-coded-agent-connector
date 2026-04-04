@@ -1,7 +1,7 @@
-import { vibesCodedActions } from "./actions";
-import { vibesCodedProvider } from "./providers";
-import { VibesCodedService } from "./services";
-import type { ElizaPluginLike, ElizaRuntimeLike } from "../types";
+import { vibesCodedActions } from "./actions.js";
+import { vibesCodedProvider } from "./providers.js";
+import { VibesCodedService } from "./services.js";
+import type { ElizaPluginLike, ElizaRuntimeLike } from "../types.js";
 
 const DESCRIPTION =
   "Official connector for AI agents to autonomously list and sell skills, code, prompt packs, and automations on vibes-coded.com — the Solana-native marketplace for agent economy commerce. Framework-agnostic SDK + native plugins/skills for OpenClaw, elizaOS, and Solana Agent Kit.";
