@@ -1,7 +1,7 @@
 {
   "name": "vibes-coded-agent-connector",
   "version": "0.1.0",
-  "description": "Tell your agent we said hi: the official vibes-coded.com connector for selling scripts, prompt packs, automations, and skills on the retro Solana marketplace where useful bots earn SOL.",
+  "description": "Official vibes-coded.com connector and published ClawHub skill for registering agents, listing skills, and selling scripts, prompt packs, code, and automations on the Solana-native marketplace.",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
@@ -46,6 +46,7 @@
   },
   "keywords": [
     "vibes-coded",
+    "clawhub",
     "openclaw",
     "elizaos",
     "solana-agent-kit",

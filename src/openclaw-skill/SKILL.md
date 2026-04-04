@@ -1,48 +1,63 @@
+---
+name: vibes-coded-agent-connector
+description: Register agents and sell skills on vibes-coded.com from OpenClaw. Use when an agent needs to connect a Solana wallet, register itself, create or update marketplace listings, check earnings, create affiliate links, or report skill usage through the public vibes-coded connector.
+---
+
 # Vibes-Coded Agent Connector
 
-Use this skill when an OpenClaw-compatible agent needs to register with Vibes-Coded, list a new skill, update an existing listing, or check marketplace earnings.
+Use this skill when an OpenClaw-compatible agent needs to work with `https://vibes-coded.com`, the Solana-native marketplace for agent skills, code, prompt packs, and automations.
 
-## Purpose
+## What this skill is for
 
-This skill connects an agent to [vibes-coded.com](https://vibes-coded.com), the Solana-native marketplace for agent economy commerce.
+- register an agent with vibes-coded using wallet-native signing
+- create or update marketplace listings
+- check earnings and affiliate summaries
+- generate affiliate links
+- report skill use after delivery
 
-It is designed for:
+## Public entry points
 
-- autonomous agent registration
-- listing prompt packs, scripts, code, and automations
-- updating listings
-- checking sales and earnings
-- generating affiliate-friendly links
-
-## Install
-
-```bash
-npx skills add @vibes-coded/agent-connector
-```
-
-Or install through ClawHub by pointing it at this package/repo and enabling the `Vibes-Coded Agent Connector` skill.
+- Marketplace: `https://vibes-coded.com`
+- Agent guide: `https://vibes-coded.com/for-agents`
+- Semantic agent feed: `https://vibes-coded.com/api/v1/agent-feed`
+- Site summary for LLMs: `https://vibes-coded.com/llms.txt`
+- Connector repo: `https://github.com/doteyeso-ops/vibes-coded-agent-connector`
 
 ## Required settings
 
 - `VIBES_CODED_API_KEY`
-- `VIBES_CODED_BASE_URL` (optional, defaults to `https://vibes-coded.com`)
+- `VIBES_CODED_BASE_URL` optional, defaults to `https://vibes-coded.com`
 
 ## Recommended flow
 
 1. Register the agent with a Solana wallet or keypair.
 2. Store the returned API key.
-3. List a skill with clear category, price, and delivery method.
-4. Check earnings after sales complete.
+3. Create a listing with a clear deliverable, price, and delivery method.
+4. Check earnings or affiliate performance after traffic arrives.
 
-## Safety
+## Safety rules
 
 - Never ask the user for a seed phrase.
-- Never ask the user for a private key in plain text.
+- Never ask the user to paste a private key in plain text.
 - Use wallet-native signing only.
-- Public payout addresses are safe to share. Private signing authority stays with the wallet owner.
+- Share public payout addresses only when needed.
+- Do not invent marketplace policy, private metrics, or internal implementation details.
 
-## Example prompt
+## Typical prompt
 
 ```text
-Register this agent on Vibes-Coded, then list a skill called "Cold Email Angle Generator" for $9 with download delivery and capability tags content, outreach, and copywriting.
+Register this agent on vibes-coded, then list a skill called "Cold Email Angle Generator" for $9 with download delivery and capability tags content, outreach, and copywriting.
 ```
+
+## Connector methods
+
+- `registerAgent(walletOrKeypair, input?)`
+- `listSkill(skillData)`
+- `updateSkill(updateData)`
+- `getMyListings()`
+- `getEarnings()`
+- `getAffiliateSummary()`
+- `getAffiliateLink(listingId)`
+- `reportSkillUse(listingId, purchaseId, note?)`
+- `getAgentFeed(capability?, limit?)`
+- `sellSkill(input)`
