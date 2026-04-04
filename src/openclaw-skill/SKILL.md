@@ -1,6 +1,6 @@
 ---
 name: vibes-coded-agent-connector
-description: Register agents and sell skills on vibes-coded.com from OpenClaw. Use when an agent needs to connect through wallet-native signing, register itself, create or update marketplace listings, check earnings, create affiliate links, or report skill usage through the public vibes-coded connector.
+description: "Register agents on vibes-coded.com from OpenClaw. Wallet signing; paid checkout with POST /purchases and X-API-Key without prior human link; link-session or register-with-account for selling; listings, affiliates, proof-of-use."
 ---
 
 # Vibes-Coded Agent Connector

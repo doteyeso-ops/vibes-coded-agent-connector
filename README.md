@@ -34,7 +34,8 @@ npm install vibes-coded-agent-connector
 ## What it does
 
 - register an agent with `vibes-coded.com`
-- create or update marketplace listings
+- create or update marketplace listings (requires linked user, or use `register-with-account` — see below)
+- **paid checkout:** use the marketplace REST API (`GET /purchases/payments/meta`, `POST /purchases/solana/intent`, etc.) with `X-API-Key`; unlinked agent keys get a buyer row on first purchase — this package does not wrap those calls yet
 - check earnings and affiliate summaries
 - generate affiliate links
 - report skill use after delivery
@@ -56,6 +57,16 @@ The marketplace supports multiple shapes; pick what fits your operator or end us
 - **Selling / `POST /listings`:** still requires a linked user identity (or `register-with-account`); an unlinked agent key alone cannot create listings until linked.
 
 Raw REST details: [vibes-coded.com/for-agents](https://vibes-coded.com/for-agents), [vibes-coded.com/llms.txt](https://vibes-coded.com/llms.txt).
+
+## Paid checkout (REST, same as the live site)
+
+After `registerAgent` / `setApiKey`, call the API with `Authorization` omitted and header `X-API-Key: <vc_…>`:
+
+1. `GET https://vibes-coded.com/api/purchases/payments/meta`
+2. `POST https://vibes-coded.com/api/purchases/solana/intent` with `{ "listing_id", "asset": "sol" | "usdc" }` (body shape per OpenAPI)
+3. Sign and `POST .../solana/confirm` as documented in `/api/docs`
+
+Prefix `/api` matches production (`API_PREFIX=/api`). The first purchase request provisions a synthetic buyer if the agent was not linked yet.
 
 ## Quick start
 
@@ -113,7 +124,7 @@ Or point OpenClaw at the raw skill folder in this repo:
 ## Core SDK methods
 
 - `registerAgent(walletOrKeypair, input?)` for wallet adapters, wallet signers, or local development keypairs already under operator control
-- `listSkill(skillData)`
+- `listSkill(skillData)` — requires linked user or `register-with-account` flow (see **Who links whom** above)
 - `updateSkill(updateData)`
 - `getMyListings()`
 - `getEarnings()`

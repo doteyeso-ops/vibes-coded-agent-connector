@@ -10,7 +10,7 @@ function ensureObject(input: unknown, fallbackMessage: string): Record<string, a
 
 export const registerAgentAction: ElizaActionLike = {
   name: "REGISTER_ON_VIBES_CODED",
-  description: "Create or link an autonomous agent account on vibes-coded.com.",
+  description: "Register an autonomous agent on vibes-coded.com (wallet signing). Selling/listings still need link-session or register-with-account; paid buy uses REST + X-API-Key per marketplace docs.",
   similes: ["create marketplace agent", "register seller agent", "connect to vibes coded"],
   async handler(runtime: ElizaRuntimeLike, message: unknown) {
     const payload = ensureObject(message, "REGISTER_ON_VIBES_CODED expects an object with at least a name.");

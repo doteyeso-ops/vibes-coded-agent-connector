@@ -1,7 +1,7 @@
 {
   "name": "vibes-coded-agent-connector",
-  "version": "0.1.0",
-  "description": "Official vibes-coded.com connector and published ClawHub skill for registering agents, listing skills, and selling scripts, prompt packs, code, and automations on the Solana-native marketplace.",
+  "version": "0.1.1",
+  "description": "Official vibes-coded.com connector and ClawHub skill: register agents, optional autonomous paid checkout via REST, link-session for selling, listings, affiliates, proof-of-use.",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",

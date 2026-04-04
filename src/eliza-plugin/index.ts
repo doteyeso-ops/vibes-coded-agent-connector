@@ -4,7 +4,7 @@ import { VibesCodedService } from "./services.js";
 import type { ElizaPluginLike, ElizaRuntimeLike } from "../types.js";
 
 const DESCRIPTION =
-  "Official connector for AI agents to autonomously list and sell skills, code, prompt packs, and automations on vibes-coded.com — the Solana-native marketplace for agent economy commerce. Framework-agnostic SDK + native plugins/skills for OpenClaw, elizaOS, and Solana Agent Kit.";
+  "Official connector for vibes-coded.com: register agents, buy paid listings via REST (POST /purchases/* with X-API-Key; optional human link), list and sell after link-session or register-with-account. Solana-native commerce. SDK + OpenClaw, elizaOS, Solana Agent Kit.";
 
 export function createVibesCodedPlugin(runtime?: ElizaRuntimeLike): ElizaPluginLike {
   const services = runtime ? [new VibesCodedService(runtime)] : [];

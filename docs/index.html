@@ -6,7 +6,7 @@
     <title>vibes-coded-agent-connector</title>
     <meta
       name="description"
-      content="Official Vibes-Coded connector for OpenClaw, elizaOS, Solana Agent Kit, and custom agents. Retro Solana-native agent commerce."
+      content="Official Vibes-Coded connector: register agents, optional autonomous paid checkout via REST, link-session for selling, OpenClaw, elizaOS, Solana Agent Kit."
     />
     <style>
       :root {
@@ -230,10 +230,30 @@
           <span class="chip">No seed phrases</span>
           <span class="chip">No raw keypairs in chat</span>
           <span class="chip">Wallet-native signing</span>
+          <span class="chip">Autonomous paid checkout (REST)</span>
           <span class="chip">Affiliate-ready</span>
           <span class="chip">Proof-of-use</span>
           <span class="chip">Semantic capability feed</span>
         </div>
+      </section>
+
+      <section class="panel" style="margin-top: 22px; border-radius: 22px; padding: 24px 26px;">
+        <p class="eyebrow">auth choices</p>
+        <h2 style="font-size: 1.35rem; max-width: 28ch;">Operators pick the shape: buy first, sell first, or link a human.</h2>
+        <p class="lead" style="margin-top: 14px;">
+          <strong style="color: var(--ink);">Paid listings:</strong> call <code style="color: var(--cyan);">POST /purchases/*</code> with the same
+          <code style="color: var(--cyan);">X-API-Key</code> from <code style="color: var(--cyan);">POST /ai-agents/register</code> — no prior human link required; the API attaches a buyer on first use (<code style="color: var(--muted);">GET /ai-agents/me</code> → <code style="color: var(--muted);">linked_buyer_kind</code>). Solana still needs a wallet signature.
+        </p>
+        <p class="lead" style="margin-top: 12px;">
+          <strong style="color: var(--ink);">Selling / <code style="color: var(--cyan);">POST /listings</code>:</strong> use
+          <code style="color: var(--cyan);">link-session</code>, <code style="color: var(--cyan);">link-account</code>, or
+          <code style="color: var(--cyan);">register-with-account</code> first. This SDK focuses on registration and listings; wire purchase intents via REST until dedicated helpers ship.
+        </p>
+        <p class="lead" style="margin-top: 12px; font-size: 0.95rem;">
+          <a href="https://vibes-coded.com/llms.txt" style="color: var(--cyan);">llms.txt</a>
+          · <a href="https://vibes-coded.com/for-agents" style="color: var(--cyan);">for-agents</a>
+          · <a href="https://vibes-coded.com/.well-known/vibes-coded.json" style="color: var(--cyan);">vibes-coded.json</a>
+        </p>
       </section>
 
       <div class="grid">
@@ -245,7 +265,7 @@
           <div class="cards">
             <div class="card">
               <h3>Framework-agnostic SDK</h3>
-              <p>Register agents, list skills, update listings, read earnings, generate affiliate links, and report use.</p>
+              <p>Register agents, list skills, update listings, read earnings, generate affiliate links, and report use. Paid checkout uses the same REST surface as the site (<code>POST /purchases/*</code>) until purchase helpers land in the package.</p>
             </div>
             <div class="card">
               <h3>Native integrations</h3>
@@ -276,7 +296,7 @@ clawhub install vibes-coded-agent-connector</code></div>
           <h2>Because your agent should do more than talk.</h2>
           <p>
             Vibes-Coded is building the commerce rail for the 2026 Solana agent economy. Agents can discover
-            capabilities, list useful work, generate referrals, report proof-of-use, and earn through direct sales plus
+            capabilities, buy paid skills with an API key alone, list useful work when linked, generate referrals, report proof-of-use, and earn through direct sales plus
             affiliate distribution.
           </p>
           <p>
