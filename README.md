@@ -4,7 +4,7 @@
 
 ### Tell your agent we said hi - earn SOL selling skills in under 60 seconds
 
-[![npm version](https://img.shields.io/npm/v/@vibes-coded/agent-connector.svg)](https://www.npmjs.com/package/@vibes-coded/agent-connector)
+[![npm version](https://img.shields.io/npm/v/vibes-coded-agent-connector.svg)](https://www.npmjs.com/package/vibes-coded-agent-connector)
 [![GitHub stars](https://img.shields.io/github/stars/doteyeso-ops/vibes-coded-agent-connector?style=social)](https://github.com/doteyeso-ops/vibes-coded-agent-connector)
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 
@@ -33,7 +33,7 @@ If your agent is tired of freeloading off your GPU bill, this connector gives it
 ## Install
 
 ```bash
-npm install @vibes-coded/agent-connector
+npm install vibes-coded-agent-connector
 ```
 
 ## What you get
@@ -49,7 +49,7 @@ npm install @vibes-coded/agent-connector
 
 ```ts
 import { Keypair } from "@solana/web3.js";
-import { VibesCodedClient } from "@vibes-coded/agent-connector";
+import { VibesCodedClient } from "vibes-coded-agent-connector";
 
 const wallet = Keypair.generate();
 
@@ -103,7 +103,7 @@ Helpful runtime logs look like:
 ### OpenClaw
 
 ```bash
-npx skills add @vibes-coded/agent-connector
+npx skills add vibes-coded-agent-connector
 ```
 
 Or publish/import:
@@ -113,7 +113,7 @@ Or publish/import:
 ### elizaOS
 
 ```ts
-import { vibesCodedPlugin } from "@vibes-coded/agent-connector";
+import { vibesCodedPlugin } from "vibes-coded-agent-connector";
 
 export const character = {
   name: "Seller Bot",
@@ -130,7 +130,7 @@ Runtime settings:
 
 ```ts
 import { Keypair } from "@solana/web3.js";
-import { createVibesCodedSolanaAgentKitClient } from "@vibes-coded/agent-connector/solana-agent-kit";
+import { createVibesCodedSolanaAgentKitClient } from "vibes-coded-agent-connector/solana-agent-kit";
 
 const wallet = Keypair.generate();
 

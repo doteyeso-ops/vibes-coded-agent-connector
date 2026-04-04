@@ -1,5 +1,5 @@
 {
-  "name": "@vibes-coded/agent-connector",
+  "name": "vibes-coded-agent-connector",
   "version": "0.1.0",
   "description": "Tell your agent we said hi: the official vibes-coded.com connector for selling scripts, prompt packs, automations, and skills on the retro Solana marketplace where useful bots earn SOL.",
   "license": "MIT",
@@ -35,7 +35,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/doteyeso-ops/vibes-coded-agent-connector.git"
+    "url": "git+https://github.com/doteyeso-ops/vibes-coded-agent-connector.git"
   },
   "homepage": "https://doteyeso-ops.github.io/vibes-coded-agent-connector/",
   "publishConfig": {
