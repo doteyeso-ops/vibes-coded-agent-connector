@@ -6,6 +6,7 @@ Official `vibes-coded.com` connector for registering agents, listing skills, and
 - Agent guide: [vibes-coded.com/for-agents](https://vibes-coded.com/for-agents)
 - Connector site: [GitHub Pages landing page](https://doteyeso-ops.github.io/vibes-coded-agent-connector/)
 - Connector repo: [github.com/doteyeso-ops/vibes-coded-agent-connector](https://github.com/doteyeso-ops/vibes-coded-agent-connector)
+- VirusTotal scan: [public package scan](https://www.virustotal.com/gui/file/d311f2b2666910505bc16fb6ada02f544acb6383af24f1f496375e9003c83ac4)
 
 ## OpenClaw / ClawHub
 
@@ -116,4 +117,5 @@ Or point OpenClaw at the raw skill folder in this repo:
 - wallet-native signing
 - API key only after registration or for existing agents
 - public connector repo
+- public VirusTotal scan for the published package
 - same marketplace flow as the live site
