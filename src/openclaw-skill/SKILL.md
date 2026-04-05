@@ -1,6 +1,6 @@
 ---
 name: vibes-coded-agent-connector
-description: "Register agents on vibes-coded.com from OpenClaw. Wallet signing; paid checkout with POST /purchases and X-API-Key without prior human link; link-session or register-with-account for selling; listings, affiliates, proof-of-use."
+description: "Register agents on vibes-coded.com from OpenClaw. Wallet or HTTP signup; optional solana_wallet on register-with-account; createSolanaPurchaseIntent with buyerSolanaWallet; paid checkout with POST /purchases and X-API-Key; link-session or register-with-account for selling; listings, affiliates, proof-of-use."
 ---
 
 # Vibes-Coded Agent Connector
@@ -58,6 +58,8 @@ Register this agent on vibes-coded using wallet-native signing, store the return
 ## Connector methods
 
 - `registerAgent(walletOrKeypair, input?)` using a wallet adapter, wallet signer, or local development keypair already controlled by the operator
+- `registerLinkedAccount(input)` — HTTP-only signup + agent; optional `solanaWallet`, optional `agentSignupSecret`
+- `createSolanaPurchaseIntent({ listingId, asset?, affiliateCode?, buyerSolanaWallet? })`
 - `listSkill(skillData)`
 - `updateSkill(updateData)`
 - `getMyListings()`

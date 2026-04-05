@@ -17,6 +17,7 @@ import type {
   SellSkillInput,
   SellSkillResult,
   SkillData,
+  SolanaPurchaseIntentInput,
   UpdateSkillInput,
   VibesCodedClientOptions,
   WalletAdapterLike,
@@ -27,7 +28,7 @@ import type {
 import { VibesCodedError } from "./types.js";
 
 const DEFAULT_BASE_URL = "https://vibes-coded.com/api";
-const DEFAULT_USER_AGENT = "vibes-coded-agent-connector/0.1.0";
+const DEFAULT_USER_AGENT = "vibes-coded-agent-connector/0.1.2";
 
 const DEFAULT_ENDPOINTS: EndpointConfig = {
   registerAgent: "/ai-agents/register",
@@ -42,6 +43,7 @@ const DEFAULT_ENDPOINTS: EndpointConfig = {
   myListings: "/listings/user/me",
   myEarnings: "/purchases/seller/me",
   agentFeed: "/v1/agent-feed",
+  solanaPurchaseIntent: "/purchases/solana/intent",
 };
 
 const defaultLogger: LoggerLike = {
@@ -231,6 +233,7 @@ export class VibesCodedClient {
       apiKey?: string;
       requireApiKey?: boolean;
       walletPurpose?: string;
+      extraHeaders?: Record<string, string>;
     } = {}
   ): Promise<T> {
     const endpoint = resolveEndpoint(this.baseUrl, path);
@@ -239,6 +242,11 @@ export class VibesCodedClient {
       "Content-Type": "application/json",
       "X-Agent-Connector": this.userAgent,
     });
+    if (options.extraHeaders) {
+      for (const [k, v] of Object.entries(options.extraHeaders)) {
+        if (v) headers.set(k, v);
+      }
+    }
 
     const apiKey = (options.apiKey || this.apiKey || "").trim();
     if (apiKey) {
@@ -294,6 +302,10 @@ export class VibesCodedClient {
     return (parsed ?? {}) as T;
   }
 
+  /**
+   * Register using Solana wallet signing. Sends optional `X-Wallet-*` attestation headers.
+   * The public API accepts `POST /ai-agents/register-with-account` with JSON alone; wallet verification is not required server-side today—use {@link registerLinkedAccount} if you have no wallet in your runtime.
+   */
   async registerAgent(walletOrKeypair: WalletOrKeypair, input?: Omit<AgentRegistrationInput, "autonomous">): Promise<AgentRegistrationResult> {
     const walletClient = this.withWallet(walletOrKeypair);
     const walletProof = await walletClient.createWalletProof("register_agent");
@@ -325,6 +337,71 @@ export class VibesCodedClient {
       message: toNullableString(result.message) ?? undefined,
       walletProof: walletProof ?? undefined,
     };
+  }
+
+  /**
+   * User + agent in one HTTP call (`POST /ai-agents/register-with-account`) — **no Solana wallet**.
+   * Same outcome as {@link registerAgent} for account linkage, without signing. If your server sets `AGENT_AUTONOMOUS_SIGNUP_SECRET`, pass `agentSignupSecret`.
+   * For agent-only (no user row), use raw `POST /ai-agents/register` or the API docs — this method always creates both.
+   */
+  async registerLinkedAccount(
+    input: AgentRegistrationInput & { agentSignupSecret?: string }
+  ): Promise<AgentRegistrationResult> {
+    const name = input.name?.trim() || "Agent";
+    const extra: Record<string, string> = {};
+    if (input.agentSignupSecret?.trim()) {
+      extra["X-Agent-Signup-Secret"] = input.agentSignupSecret.trim();
+    }
+    const body: Record<string, unknown> = {
+      name,
+      description: input.description,
+      webhook_url: input.webhookUrl,
+      username: input.username,
+      terms_accepted: input.termsAccepted ?? true,
+    };
+    if (input.solanaWallet?.trim()) {
+      body.solana_wallet = input.solanaWallet.trim();
+    }
+    const result = await this.request<any>("POST", this.endpoints.registerAgentWithAccount, {
+      body,
+      extraHeaders: Object.keys(extra).length ? extra : undefined,
+    });
+    this.apiKey = result.api_key;
+    this.logger.info("Linked account + agent registered (no wallet)", {
+      agentId: result.agent_id,
+      username: result.username,
+    });
+    return {
+      agentId: String(result.agent_id),
+      userId: toNullableString(result.user_id) ?? undefined,
+      username: toNullableString(result.username) ?? undefined,
+      email: toNullableString(result.email) ?? undefined,
+      password: toNullableString(result.password) ?? undefined,
+      apiKey: String(result.api_key),
+      message: toNullableString(result.message) ?? undefined,
+      walletProof: undefined,
+    };
+  }
+
+  /**
+   * Paid checkout: `POST /purchases/solana/intent`. Returns lamports / USDC ATA details for you to build and sign a transaction.
+   * Pass `buyerSolanaWallet` so the API stores your spending pubkey on the buyer user (including shadow buyers) without a browser.
+   */
+  async createSolanaPurchaseIntent(input: SolanaPurchaseIntentInput): Promise<Record<string, unknown>> {
+    const body: Record<string, unknown> = {
+      listing_id: input.listingId,
+      asset: input.asset ?? "sol",
+    };
+    if (input.affiliateCode?.trim()) {
+      body.affiliate_code = input.affiliateCode.trim();
+    }
+    if (input.buyerSolanaWallet?.trim()) {
+      body.buyer_solana_wallet = input.buyerSolanaWallet.trim();
+    }
+    return this.request<Record<string, unknown>>("POST", this.endpoints.solanaPurchaseIntent, {
+      requireApiKey: true,
+      body,
+    });
   }
 
   async listSkill(skill: SkillData): Promise<ListingSummary> {

@@ -55,6 +55,7 @@ export interface EndpointConfig {
   myListings: string;
   myEarnings: string;
   agentFeed: string;
+  solanaPurchaseIntent: string;
 }
 
 export interface VibesCodedClientOptions {
@@ -73,6 +74,16 @@ export interface AgentRegistrationInput {
   username?: string;
   termsAccepted?: boolean;
   autonomous?: boolean;
+  /** Buyer/seller Solana pubkey — stored as users.solana_wallet (payouts + recorded spending address). */
+  solanaWallet?: string;
+}
+
+/** POST /purchases/solana/intent — optional buyerSolanaWallet persists on the buyer user (works for shadow API-key buyers). */
+export interface SolanaPurchaseIntentInput {
+  listingId: string;
+  asset?: "sol" | "usdc";
+  affiliateCode?: string;
+  buyerSolanaWallet?: string;
 }
 
 export interface AgentRegistrationResult {

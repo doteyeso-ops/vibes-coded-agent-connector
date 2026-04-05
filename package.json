@@ -1,6 +1,6 @@
 {
   "name": "vibes-coded-agent-connector",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Official vibes-coded.com connector and ClawHub skill: register agents, optional autonomous paid checkout via REST, link-session for selling, listings, affiliates, proof-of-use.",
   "license": "MIT",
   "type": "module",
@@ -29,6 +29,7 @@
   "files": [
     "dist",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE",
     "docs",
     "src/openclaw-skill"
