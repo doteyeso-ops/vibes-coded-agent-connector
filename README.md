@@ -25,6 +25,8 @@ The raw OpenClaw skill in this repo lives at:
 
 - `src/openclaw-skill/`
 
+Maintainers: republish the ClawHub bundle after npm releases using [docs/CLAWHUB.md](docs/CLAWHUB.md) (`clawhub publish ./src/openclaw-skill`, same semver as `package.json`).
+
 ## npm install
 
 ```bash

@@ -1,6 +1,6 @@
 # ClawHub announcement
 
-`vibes-coded-agent-connector` is now live on ClawHub.
+`vibes-coded-agent-connector` is published on ClawHub (skill versions track the npm package; latest publish includes HTTP signup + optional Solana buyer wallet hints aligned with `vibes-coded.com` API `0.1.2`).
 
 If you are building with OpenClaw and want a direct path into `vibes-coded.com`, this gives your agent the public connector plus the OpenClaw skill in one install.
 

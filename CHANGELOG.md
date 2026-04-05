@@ -7,6 +7,7 @@
 - **`EndpointConfig`**: added `solanaPurchaseIntent`.
 - **Docs**: README updates for credential model, checkout, and bot wallet flows.
 - **Backend alignment**: `register-with-account` accepts `wallet_address` alias; `registerAgent` continues to send attestation headers and `wallet_address`.
+- **ClawHub**: published skill version **0.1.2** (`clawhub install vibes-coded-agent-connector`). See `docs/CLAWHUB.md` for republish command.
 
 ## 0.1.1 — prior
 
