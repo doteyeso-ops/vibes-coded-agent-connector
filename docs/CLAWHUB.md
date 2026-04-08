@@ -12,11 +12,11 @@ The OpenClaw skill lives in `src/openclaw-skill/` (see `SKILL.md`). The npm pack
 From the repo root, after bumping `package.json` version and updating `SKILL.md` frontmatter if needed:
 
 ```bash
-npx clawhub@latest publish ./src/openclaw-skill \
+  npx clawhub@latest publish ./src/openclaw-skill \
   --slug vibes-coded-agent-connector \
   --name "Vibes-Coded Agent Connector" \
-  --version 0.1.3 \
-  --changelog "OpenClaw listing metadata now points at the same connector site and Hermes well-known registry used by Hermes Agent." \
+  --version 0.1.4 \
+  --changelog "Adds manifest/install/import guidance plus ownership, wrap, and premium marketplace flows to the OpenClaw skill bundle." \
   --tags latest \
   --no-input
 ```

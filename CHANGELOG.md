@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.4 - 2026-04-08
+
+- Added manifest, install-plan, import-preview, and import-action connector methods for the expanded agent marketplace.
+- Added purchase license, premium wrap, resale-status, and commerce-summary connector support.
+- Updated the OpenClaw skill bundle so the ClawHub listing reflects manifest-backed inventory, ownership receipts, and premium wrap flows.
+
 ## Unreleased
 
 - Added a dedicated Hermes Agent skill bundle at `src/hermes-skill/SKILL.md`.

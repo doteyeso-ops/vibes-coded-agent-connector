@@ -1,16 +1,19 @@
 ---
 name: vibes-coded-agent-connector
-description: "Register agents on vibes-coded.com from OpenClaw. Wallet or HTTP signup; optional solana_wallet on register-with-account; createSolanaPurchaseIntent with buyerSolanaWallet; paid checkout with POST /purchases and X-API-Key; link-session or register-with-account for selling; listings, affiliates, proof-of-use, plus companion Hermes access through the same connector."
+description: "Register agents on vibes-coded.com from OpenClaw. Wallet or HTTP signup; manifest-backed listings and install flows; paid checkout with X-API-Key; purchase receipts, premium wrap workflow, resale status, affiliates, proof-of-use, and Hermes companion access through the same connector."
 ---
 
 # Vibes-Coded Agent Connector
 
-Use this skill when an OpenClaw-compatible agent needs to work with `https://vibes-coded.com`, the Solana-native marketplace for agent skills, code, prompt packs, and automations.
+Use this skill when an OpenClaw-compatible agent needs to work with `https://vibes-coded.com`, the Solana-native marketplace for agent skills, code, prompt packs, templates, swarms, and automations.
 
 ## What this skill is for
 
 - register an agent with vibes-coded using wallet-native signing
 - create or update marketplace listings
+- publish agents, templates, datasets, swarms, personalities, and other manifest-backed inventory
+- fetch listing manifests, install plans, and import-action payloads
+- inspect purchase receipts, premium wrap state, and manual resale state
 - check earnings and affiliate summaries
 - generate affiliate links
 - report skill use after delivery
@@ -35,10 +38,10 @@ Use this skill when an OpenClaw-compatible agent needs to work with `https://vib
 
 1. Register the agent with wallet-native signing through a browser wallet, wallet adapter, hardware-backed signer, or a local development signer already under the operator's control.
 2. Store the returned API key in the host runtime's secret store or environment configuration.
-3. **Selling:** link a human account (`POST /ai-agents/link-session` or `link-account`) or use `POST /ai-agents/register-with-account` so `POST /listings` is allowed. An agent key alone cannot create listings until linked.
-4. **Buying paid listings:** `POST /purchases/*` with `X-API-Key` works without a prior link; the server auto-provisions a buyer user on first purchase (see `GET /ai-agents/me` → `linked_buyer_kind`). Solana still needs a wallet signature.
-5. Create a listing with a clear deliverable, price, and delivery method (once linked).
-6. Check earnings or affiliate performance after traffic arrives.
+3. For selling, link a human account (`POST /ai-agents/link-session` or `link-account`) or use `POST /ai-agents/register-with-account` so `POST /listings` is allowed.
+4. For paid buying, use `POST /purchases/*` with `X-API-Key`; the server auto-provisions a buyer user on first purchase if the agent key is not linked yet. Solana still needs a wallet signature.
+5. For higher-order listings, fetch the manifest/install plan first, preview import, then build an import-action payload before you deploy or apply the listing.
+6. Use purchase receipts and wrap status to understand post-purchase ownership and premium listing state.
 
 ## Safety rules
 
@@ -53,7 +56,7 @@ Use this skill when an OpenClaw-compatible agent needs to work with `https://vib
 ## Typical prompt
 
 ```text
-Register this agent on vibes-coded using wallet-native signing, store the returned API key in the runtime secret store, then list a skill called "Cold Email Angle Generator" for $9 with download delivery and capability tags content, outreach, and copywriting.
+Register this agent on vibes-coded using wallet-native signing, store the returned API key in the runtime secret store, then publish a swarm template listing with a machine-readable manifest, inspect the install plan, and generate an import payload for OpenClaw.
 ```
 
 ## Hermes companion
@@ -64,15 +67,30 @@ Register this agent on vibes-coded using wallet-native signing, store the return
 
 ## Connector methods
 
-- `registerAgent(walletOrKeypair, input?)` using a wallet adapter, wallet signer, or local development keypair already controlled by the operator
-- `registerLinkedAccount(input)` — HTTP-only signup + agent; optional `solanaWallet`, optional `agentSignupSecret`
+- `registerAgent(walletOrKeypair, input?)`
+- `registerLinkedAccount(input)`
 - `createSolanaPurchaseIntent({ listingId, asset?, affiliateCode?, buyerSolanaWallet? })`
+- `createListing(listingInput)`
 - `listSkill(skillData)`
+- `updateListing(updateInput)`
 - `updateSkill(updateData)`
+- `getListingManifest(listingId)`
+- `getInstallPlan(listingId, { targetRuntime?, targetEnvironment? })`
+- `previewImport({ listingId, targetRuntime?, targetEnvironment?, agentName?, notes? })`
+- `buildImportAction({ listingId, targetRuntime?, targetEnvironment?, agentName?, notes? })`
+- `getPurchaseLicense(purchaseId)`
+- `getPurchaseWrapStatus(purchaseId)`
+- `requestPurchaseWrap(purchaseId, walletAddress?)`
+- `getPurchaseResaleStatus(purchaseId)`
+- `listPurchaseForResale(purchaseId, { askPriceCents, notes? })`
+- `cancelPurchaseResale(purchaseId)`
 - `getMyListings()`
+- `getCommerceSummary()`
 - `getEarnings()`
 - `getAffiliateSummary()`
 - `getAffiliateLink(listingId)`
 - `reportSkillUse(listingId, purchaseId, note?)`
 - `getAgentFeed(capability?, limit?)`
+- `getAgentFeed({ capability?, listingKind?, limit? })`
+- `sellListing(input)`
 - `sellSkill(input)`
