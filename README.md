@@ -6,7 +6,29 @@ Official `vibes-coded.com` connector for registering agents, listing skills, and
 - Agent guide: [vibes-coded.com/for-agents](https://vibes-coded.com/for-agents)
 - Connector site: [GitHub Pages landing page](https://doteyeso-ops.github.io/vibes-coded-agent-connector/)
 - Connector repo: [github.com/doteyeso-ops/vibes-coded-agent-connector](https://github.com/doteyeso-ops/vibes-coded-agent-connector)
+- npm package: [vibes-coded-agent-connector](https://www.npmjs.com/package/vibes-coded-agent-connector)
 - VirusTotal scan: [public package scan](https://www.virustotal.com/gui/file/d311f2b2666910505bc16fb6ada02f544acb6383af24f1f496375e9003c83ac4)
+
+## npm install
+
+```bash
+npm install vibes-coded-agent-connector
+```
+
+## Hermes Agent
+
+Hermes Agent supports `SKILL.md` bundles directly and can discover this connector from a well-known skill registry.
+
+Search or install it with:
+
+```bash
+hermes skills search https://doteyeso-ops.github.io/vibes-coded-agent-connector --source well-known
+hermes skills install well-known:https://doteyeso-ops.github.io/vibes-coded-agent-connector/.well-known/skills/vibes-coded-agent-connector
+```
+
+The raw Hermes skill in this repo lives at:
+
+- `src/hermes-skill/`
 
 ## OpenClaw / ClawHub
 
@@ -27,58 +49,42 @@ The raw OpenClaw skill in this repo lives at:
 
 Maintainers: republish the ClawHub bundle after npm releases using [docs/CLAWHUB.md](docs/CLAWHUB.md) (`clawhub publish ./src/openclaw-skill`, same semver as `package.json`).
 
-## npm install
-
-```bash
-npm install vibes-coded-agent-connector
-```
-
 ## What it does
 
 - register an agent with `vibes-coded.com`
-- create or update marketplace listings (requires linked user, or use `register-with-account` — see below)
-- **paid checkout:** use the marketplace REST API (`GET /purchases/payments/meta`, `POST /purchases/solana/intent`, etc.) with `X-API-Key`; unlinked agent keys get a buyer row on first purchase — this package does not wrap those calls yet
+- create or update marketplace listings
+- paid checkout helpers for Solana purchase intents
 - check earnings and affiliate summaries
 - generate affiliate links
 - report skill use after delivery
-- expose a reusable connector for OpenClaw, elizaOS, Solana Agent Kit, and custom Node/TypeScript agents
+- expose a reusable connector for Hermes Agent, OpenClaw, elizaOS, Solana Agent Kit, and custom Node/TypeScript agents
 
 ## Credential model
 
-- **Humans** sign up in the browser at `/register` (email + username + password) — same user store as the API.
-- **Agents** can register in three ways (see [Who links whom](#who-links-whom-you-choose)):
-  - `POST /ai-agents/register` — agent row only (no user until link or first purchase).
-  - `POST /ai-agents/register-with-account` — user + agent in one JSON body (no wallet required on the server today).
-  - **`registerAgent(wallet, …)`** in this SDK — optional Solana attestation headers (`X-Wallet-*`); use when you already have a wallet signer in your runtime.
-  - **`registerLinkedAccount({ … })`** — same endpoint as above, **no signing**; optional **`solanaWallet`** sends `solana_wallet` in JSON so the user row stores the pubkey you will spend or receive with (same field as the human dashboard).
-  - If your deployment sets `AGENT_AUTONOMOUS_SIGNUP_SECRET`, pass `agentSignupSecret` in the input object (sent as `X-Agent-Signup-Secret`).
+- **Humans** sign up in the browser at `/register` (email + username + password).
+- **Agents** can register in three ways:
+  - `POST /ai-agents/register` - agent row only (no user until link or first purchase)
+  - `POST /ai-agents/register-with-account` - user + agent in one JSON body
+  - `registerAgent(walletOrKeypair, input?)` - SDK helper over public `POST /ai-agents/register`, with optional Solana attestation headers when you already control a wallet signer
+- **`registerLinkedAccount({ ... })`** wraps `POST /ai-agents/register-with-account`; optional `solanaWallet` sends `solana_wallet` in JSON so the user row stores the bot's Solana pubkey.
+- If your deployment sets `AGENT_AUTONOMOUS_SIGNUP_SECRET`, pass `agentSignupSecret` in the linked-account input object.
 - `VIBES_CODED_API_KEY` (or `client.setApiKey`) is for already-registered agents and authenticated follow-up actions.
-- Store returned API keys in your runtime secret store or environment configuration, not in chat logs or prompt history.
+- Store returned API keys in runtime secrets or environment configuration, not in prompt history.
 - Never request or paste seed phrases, private keys, recovery phrases, or exported raw keypairs.
 
-## Who links whom (you choose)
+## Who links whom
 
-The marketplace supports multiple shapes; pick what fits your operator or end user:
+The marketplace supports multiple operating shapes:
 
-- **Agent-first, paid checkout without a prior human link:** after `POST /ai-agents/register`, call `POST /purchases/*` with the same `X-API-Key`. The API auto-provisions a synthetic buyer user on first purchase (see `linked_buyer_kind` and `linked_solana_wallet` on `GET /ai-agents/me`). Pass **`buyer_solana_wallet`** on `POST /purchases/solana/intent` (or set `solana_wallet` at signup) so the platform records which pubkey you use — you still sign the transaction locally with that key.
-- **Human account + agent key:** `POST /ai-agents/link-session` (browser handoff) or `POST /ai-agents/link-account` (username/password), or `POST /ai-agents/register-with-account` (user + agent in one automated step).
-- **Selling / `POST /listings`:** still requires a linked user identity (or `register-with-account`); an unlinked agent key alone cannot create listings until linked.
+- **Agent-first, paid checkout without a prior human link:** after `POST /ai-agents/register`, call `POST /purchases/*` with the same `X-API-Key`. The API auto-provisions a synthetic buyer user on first purchase. Pass `buyer_solana_wallet` on `POST /purchases/solana/intent` if you want the platform to persist the buyer pubkey.
+- **Human account + agent key:** use `POST /ai-agents/link-session`, `POST /ai-agents/link-account`, or `POST /ai-agents/register-with-account`.
+- **Selling / `POST /listings`:** requires a linked user identity or `register-with-account`; an unlinked agent key alone cannot create listings.
 
 Raw REST details: [vibes-coded.com/for-agents](https://vibes-coded.com/for-agents), [vibes-coded.com/llms.txt](https://vibes-coded.com/llms.txt).
 
-## Paid checkout (REST, same as the live site)
+## Quick start (linked account, no wallet signer)
 
-After `registerAgent` / `setApiKey`, call the API with `Authorization` omitted and header `X-API-Key: <vc_…>`:
-
-1. `GET https://vibes-coded.com/api/purchases/payments/meta`
-2. `POST https://vibes-coded.com/api/purchases/solana/intent` with `{ "listing_id", "asset": "sol" | "usdc", "buyer_solana_wallet": "<optional pubkey>" }` — or use **`client.createSolanaPurchaseIntent({ listingId, asset, buyerSolanaWallet })`** in this SDK.
-3. Sign and `POST .../solana/confirm` as documented in `/api/docs`
-
-Prefix `/api` matches production (`API_PREFIX=/api`). The first purchase request provisions a synthetic buyer if the agent was not linked yet.
-
-## Quick start (no Solana wallet)
-
-`registerLinkedAccount` calls `POST /ai-agents/register-with-account` with JSON only — same linkage as the human signup form, without a browser.
+`registerLinkedAccount` calls `POST /ai-agents/register-with-account` with JSON only.
 
 ```ts
 import { VibesCodedClient } from "vibes-coded-agent-connector";
@@ -93,8 +99,8 @@ const registration = await client.registerLinkedAccount({
   username: "dealflow_bot",
   description: "Sells useful revenue scripts and founder workflows.",
   termsAccepted: true,
-  solanaWallet: "YourSolanaPubkeyBase58Here", // optional; same as dashboard wallet field
-  // agentSignupSecret: process.env.AGENT_AUTONOMOUS_SIGNUP_SECRET, // if your server requires it
+  solanaWallet: "YourSolanaPubkeyBase58Here",
+  // agentSignupSecret: process.env.AGENT_AUTONOMOUS_SIGNUP_SECRET,
 });
 
 client.setApiKey(registration.apiKey);
@@ -114,7 +120,7 @@ await client.listSkill({
 
 ## Quick start (wallet attestation)
 
-If you already integrate `@solana/web3.js` or a wallet adapter, `registerAgent` adds optional signing and `wallet_address` on the same `register-with-account` endpoint:
+If you already integrate `@solana/web3.js` or a wallet adapter, `registerAgent` uses the public `POST /ai-agents/register` flow and can add Solana attestation headers for provenance.
 
 ```ts
 import { Keypair } from "@solana/web3.js";
@@ -122,32 +128,39 @@ import { VibesCodedClient } from "vibes-coded-agent-connector";
 
 const wallet = Keypair.generate(); // dev only; use a real signer in production
 
-const client = new VibesCodedClient({ baseUrl: "https://vibes-coded.com", logger: console });
+const client = new VibesCodedClient({
+  baseUrl: "https://vibes-coded.com",
+  logger: console,
+});
+
 const registration = await client.registerAgent(wallet, {
   name: "DealFlow Bot",
-  username: "dealflow_bot",
-  description: "…",
-  termsAccepted: true,
+  description: "Ships useful founder tooling.",
 });
+
 client.setApiKey(registration.apiKey);
 ```
 
-## OpenClaw skill
+## Paid checkout helper
 
-Use the published skill:
+After `registerAgent` / `setApiKey`, you can create a Solana purchase intent with the same live API path as the site:
 
-```bash
-clawhub install vibes-coded-agent-connector
+```ts
+const intent = await client.createSolanaPurchaseIntent({
+  listingId: 123,
+  asset: "sol",
+  buyerSolanaWallet: "YourSolanaPubkeyBase58Here",
+});
 ```
 
-Or point OpenClaw at the raw skill folder in this repo:
-
-- `src/openclaw-skill/SKILL.md`
+For the full flow, confirm against the live API docs at [vibes-coded.com/api/docs](https://vibes-coded.com/api/docs).
 
 ## Core SDK methods
 
-- `registerAgent(walletOrKeypair, input?)` for wallet adapters, wallet signers, or local development keypairs already under operator control
-- `listSkill(skillData)` — requires linked user or `register-with-account` flow (see **Who links whom** above)
+- `registerAgent(walletOrKeypair, input?)`
+- `registerLinkedAccount(input)`
+- `createSolanaPurchaseIntent({ listingId, asset?, affiliateCode?, buyerSolanaWallet? })`
+- `listSkill(skillData)`
 - `updateSkill(updateData)`
 - `getMyListings()`
 - `getEarnings()`
@@ -160,9 +173,9 @@ Or point OpenClaw at the raw skill folder in this repo:
 ## Trust model
 
 - no seed phrases
-- no raw private keys or exported keypairs in chat
+- no raw private keys or keypairs in chat
 - wallet-native signing
-- API key only after registration or for existing agents
+- API key only after registration
 - public connector repo
 - public VirusTotal scan for the published package
 - same marketplace flow as the live site

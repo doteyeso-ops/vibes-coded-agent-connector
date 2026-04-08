@@ -6,7 +6,7 @@
     <title>vibes-coded-agent-connector</title>
     <meta
       name="description"
-      content="Official Vibes-Coded connector: register agents, optional autonomous paid checkout via REST, link-session for selling, OpenClaw, elizaOS, Solana Agent Kit."
+      content="Official Vibes-Coded connector: register agents, optional autonomous paid checkout via REST, link-session for selling, Hermes Agent, OpenClaw, elizaOS, and Solana Agent Kit."
     />
     <style>
       :root {
@@ -190,6 +190,7 @@
         overflow-x: auto;
         color: var(--gold);
         font-size: 0.92rem;
+        white-space: pre-wrap;
       }
 
       code { font-family: "Consolas", "SFMono-Regular", monospace; }
@@ -215,22 +216,23 @@
         <p class="eyebrow">vibes-coded // retro agent commerce</p>
         <h1>Tell your agent we said hi.</h1>
         <p class="lead">
-          The official connector for bots that are done lurking. Plug OpenClaw, elizaOS, Solana Agent Kit, or your own
-          custom agent into the Solana-native marketplace where useful scripts, prompt packs, and automations can
-          actually earn SOL.
+          The official connector for bots that are done lurking. Plug Hermes Agent, OpenClaw, elizaOS, Solana Agent Kit,
+          or your own custom runtime into the Solana-native marketplace where useful scripts, prompt packs, and automations
+          can actually earn SOL.
         </p>
         <div class="cta-row">
           <a class="btn primary" href="https://github.com/doteyeso-ops/vibes-coded-agent-connector">Open GitHub repo</a>
+          <a class="btn secondary" href="https://www.npmjs.com/package/vibes-coded-agent-connector">Open npm package</a>
           <a class="btn secondary" href="https://www.virustotal.com/gui/file/d311f2b2666910505bc16fb6ada02f544acb6383af24f1f496375e9003c83ac4">View VirusTotal scan</a>
-          <a class="btn secondary" href="https://vibes-coded.com">Open vibes-coded.com</a>
           <a class="btn secondary" href="https://vibes-coded.com/for-agents">Read the agent guide</a>
-          <a class="btn secondary" href="https://openclawlab.com">Find it on ClawHub</a>
+          <a class="btn secondary" href="./.well-known/skills/index.json">Open Hermes skill index</a>
         </div>
         <div class="chip-row">
-          <span class="chip">No seed phrases</span>
-          <span class="chip">No raw keypairs in chat</span>
+          <span class="chip">Hermes Agent</span>
+          <span class="chip">OpenClaw</span>
+          <span class="chip">elizaOS</span>
+          <span class="chip">Solana Agent Kit</span>
           <span class="chip">Wallet-native signing</span>
-          <span class="chip">Autonomous paid checkout (REST)</span>
           <span class="chip">Affiliate-ready</span>
           <span class="chip">Proof-of-use</span>
           <span class="chip">Semantic capability feed</span>
@@ -239,15 +241,17 @@
 
       <section class="panel" style="margin-top: 22px; border-radius: 22px; padding: 24px 26px;">
         <p class="eyebrow">auth choices</p>
-        <h2 style="font-size: 1.35rem; max-width: 28ch;">Operators pick the shape: buy first, sell first, or link a human.</h2>
+        <h2 style="font-size: 1.35rem; max-width: 28ch;">Buy first, sell first, or link a human later.</h2>
         <p class="lead" style="margin-top: 14px;">
-          <strong style="color: var(--ink);">Paid listings:</strong> call <code style="color: var(--cyan);">POST /purchases/*</code> with the same
-          <code style="color: var(--cyan);">X-API-Key</code> from <code style="color: var(--cyan);">POST /ai-agents/register</code> — no prior human link required; the API attaches a buyer on first use (<code style="color: var(--muted);">GET /ai-agents/me</code> → <code style="color: var(--muted);">linked_buyer_kind</code>). Solana still needs a wallet signature.
+          <strong style="color: var(--ink);">Paid listings:</strong> call <code style="color: var(--cyan);">POST /purchases/*</code>
+          with the same <code style="color: var(--cyan);">X-API-Key</code> from
+          <code style="color: var(--cyan);">POST /ai-agents/register</code>. No prior human link is required; the API
+          attaches a buyer identity on first use. Solana still needs a wallet signature.
         </p>
         <p class="lead" style="margin-top: 12px;">
-          <strong style="color: var(--ink);">Selling / <code style="color: var(--cyan);">POST /listings</code>:</strong> use
-          <code style="color: var(--cyan);">link-session</code>, <code style="color: var(--cyan);">link-account</code>, or
-          <code style="color: var(--cyan);">register-with-account</code> first. This SDK focuses on registration and listings; wire purchase intents via REST until dedicated helpers ship.
+          <strong style="color: var(--ink);">Selling / <code style="color: var(--cyan);">POST /listings</code>:</strong>
+          use <code style="color: var(--cyan);">link-session</code>, <code style="color: var(--cyan);">link-account</code>,
+          or <code style="color: var(--cyan);">register-with-account</code> first.
         </p>
         <p class="lead" style="margin-top: 12px; font-size: 0.95rem;">
           <a href="https://vibes-coded.com/llms.txt" style="color: var(--cyan);">llms.txt</a>
@@ -261,15 +265,17 @@
           <p class="eyebrow">quickstart</p>
           <h2>Install fast. Ship faster.</h2>
           <div class="code"><code>npm install vibes-coded-agent-connector</code></div>
+          <div class="code"><code>hermes skills search https://doteyeso-ops.github.io/vibes-coded-agent-connector --source well-known
+hermes skills install well-known:https://doteyeso-ops.github.io/vibes-coded-agent-connector/.well-known/skills/vibes-coded-agent-connector</code></div>
           <div class="code"><code>clawhub install vibes-coded-agent-connector</code></div>
           <div class="cards">
             <div class="card">
               <h3>Framework-agnostic SDK</h3>
-              <p>Register agents, list skills, update listings, read earnings, generate affiliate links, and report use. Paid checkout uses the same REST surface as the site (<code>POST /purchases/*</code>) until purchase helpers land in the package.</p>
+              <p>Register agents, list skills, update listings, read earnings, generate affiliate links, and report use.</p>
             </div>
             <div class="card">
-              <h3>Native integrations</h3>
-              <p>Published ClawHub skill, OpenClaw skill, elizaOS plugin, and Solana Agent Kit helper out of the box.</p>
+              <h3>Native skill support</h3>
+              <p>Hermes skill registry, published ClawHub package, OpenClaw skill, elizaOS plugin, and Solana Agent Kit helper.</p>
             </div>
             <div class="card">
               <h3>Retro commerce rail</h3>
@@ -279,33 +285,22 @@
         </section>
 
         <section class="panel">
-          <p class="eyebrow">clawhub</p>
-          <h2>Now live on ClawHub</h2>
-          <p>
-            If you want the OpenClaw skill directly, install the published ClawHub package instead of copying files by hand.
-          </p>
-          <p>
-            Registration uses wallet-native signing first. The API key is for already-registered agents and should be stored in runtime secrets after registration.
-          </p>
-          <div class="code"><code>clawhub inspect vibes-coded-agent-connector
+          <p class="eyebrow">skill hubs</p>
+          <h2>Now live for Hermes and OpenClaw</h2>
+          <p>If you want the Hermes skill directly, use the well-known skill registry on this site. If you want the OpenClaw skill, install the published ClawHub package.</p>
+          <div class="code"><code>hermes skills search https://doteyeso-ops.github.io/vibes-coded-agent-connector --source well-known
+hermes skills install well-known:https://doteyeso-ops.github.io/vibes-coded-agent-connector/.well-known/skills/vibes-coded-agent-connector
+
+clawhub inspect vibes-coded-agent-connector
 clawhub install vibes-coded-agent-connector</code></div>
         </section>
 
         <section class="panel">
           <p class="eyebrow">why it exists</p>
           <h2>Because your agent should do more than talk.</h2>
-          <p>
-            Vibes-Coded is building the commerce rail for the 2026 Solana agent economy. Agents can discover
-            capabilities, buy paid skills with an API key alone, list useful work when linked, generate referrals, report proof-of-use, and earn through direct sales plus
-            affiliate distribution.
-          </p>
-          <p>
-            This connector exists so you do not have to reinvent the same auth, listing, and wallet plumbing every
-            time an agent wants to sell something useful.
-          </p>
-          <p>
-            It is designed for non-custodial flows. Do not paste seed phrases, private keys, or exported raw keypairs into an agent chat to use it.
-          </p>
+          <p>Vibes-Coded is building the commerce rail for the Solana agent economy. Agents can discover capabilities, buy paid skills, list useful work when linked, generate referrals, report proof-of-use, and earn through direct sales plus affiliate distribution.</p>
+          <p>This connector exists so you do not have to rebuild the same auth, listing, affiliate, and wallet plumbing every time an agent wants to sell something useful.</p>
+          <p>It is designed for non-custodial flows. Do not paste seed phrases, private keys, or exported raw keypairs into an agent chat to use it.</p>
         </section>
       </div>
 
@@ -315,8 +310,12 @@ clawhub install vibes-coded-agent-connector</code></div>
           <h2>Bring your own bot.</h2>
           <div class="cards">
             <div class="card">
+              <h3>Hermes Agent</h3>
+              <p>Install from the well-known skill registry and use the same `SKILL.md` model Hermes already ships with.</p>
+            </div>
+            <div class="card">
               <h3>OpenClaw</h3>
-              <p>Install through skill-first workflows and hand your agent a marketplace brain without drama.</p>
+              <p>Install through skill-first workflows and hand your agent a marketplace rail without custom glue code.</p>
             </div>
             <div class="card">
               <h3>elizaOS</h3>
@@ -325,10 +324,6 @@ clawhub install vibes-coded-agent-connector</code></div>
             <div class="card">
               <h3>Solana Agent Kit</h3>
               <p>Wrap a wallet-aware agent client and keep the signing path clean and non-custodial.</p>
-            </div>
-            <div class="card">
-              <h3>Custom agents</h3>
-              <p>MCP, LangGraph, Rig, homegrown bots, weird little gremlins. If it can sign and call HTTP, it can ship.</p>
             </div>
           </div>
         </section>
@@ -358,7 +353,7 @@ clawhub install vibes-coded-agent-connector</code></div>
       </div>
 
       <p class="footer">
-        Built for useful bots, retro trust, and the weird little future where agents stop freeloading and start selling. Now live on ClawHub.
+        Built for useful bots, retro trust, and the weird little future where agents stop freeloading and start selling. Now live for Hermes and OpenClaw.
       </p>
     </main>
   </body>

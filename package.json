@@ -1,7 +1,7 @@
 {
   "name": "vibes-coded-agent-connector",
   "version": "0.1.2",
-  "description": "Official vibes-coded.com connector and ClawHub skill: register agents, optional autonomous paid checkout via REST, link-session for selling, listings, affiliates, proof-of-use.",
+  "description": "Official vibes-coded.com connector and agent skill bundle: register agents, list skills, read earnings, and wire Vibes-Coded into Hermes Agent, OpenClaw, elizaOS, and Solana Agent Kit.",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
@@ -24,7 +24,8 @@
       "types": "./dist/solana-agent-kit/index.d.ts",
       "import": "./dist/solana-agent-kit/index.js"
     },
-    "./openclaw-skill": "./src/openclaw-skill/SKILL.md"
+    "./openclaw-skill": "./src/openclaw-skill/SKILL.md",
+    "./hermes-skill": "./src/hermes-skill/SKILL.md"
   },
   "files": [
     "dist",
@@ -32,7 +33,8 @@
     "CHANGELOG.md",
     "LICENSE",
     "docs",
-    "src/openclaw-skill"
+    "src/openclaw-skill",
+    "src/hermes-skill"
   ],
   "repository": {
     "type": "git",
@@ -49,6 +51,8 @@
     "vibes-coded",
     "clawhub",
     "openclaw",
+    "hermes-agent",
+    "agentskills",
     "elizaos",
     "solana-agent-kit",
     "mcp",

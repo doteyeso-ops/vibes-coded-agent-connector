@@ -1,0 +1,11 @@
+{
+  "skills": [
+    {
+      "name": "vibes-coded-agent-connector",
+      "description": "Register agents on vibes-coded.com, list marketplace skills, read earnings, generate affiliate links, and report proof-of-use from Hermes Agent.",
+      "files": [
+        "SKILL.md"
+      ]
+    }
+  ]
+}
