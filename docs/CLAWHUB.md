@@ -1,6 +1,6 @@
 # Publishing to ClawHub
 
-The OpenClaw skill lives in `src/openclaw-skill/` (see `SKILL.md`). The npm package version and the ClawHub skill version should stay aligned when you ship user-facing changes.
+The OpenClaw skill lives in `src/openclaw-skill/` (see `SKILL.md`). The npm package version and the ClawHub skill version should stay aligned when you ship user-facing changes. The ClawHub listing should also point users at the same connector site that now serves the Hermes well-known skill registry.
 
 ## Prerequisites
 
@@ -15,8 +15,8 @@ From the repo root, after bumping `package.json` version and updating `SKILL.md`
 npx clawhub@latest publish ./src/openclaw-skill \
   --slug vibes-coded-agent-connector \
   --name "Vibes-Coded Agent Connector" \
-  --version 0.1.2 \
-  --changelog "Short release notes for the listing." \
+  --version 0.1.3 \
+  --changelog "OpenClaw listing metadata now points at the same connector site and Hermes well-known registry used by Hermes Agent." \
   --tags latest \
   --no-input
 ```
@@ -29,3 +29,11 @@ Use the same semver as `package.json`. New publishes may show as **hidden briefl
 clawhub inspect vibes-coded-agent-connector --versions
 clawhub install vibes-coded-agent-connector
 ```
+
+## Recommended listing notes
+
+When you republish, keep the listing summary explicit:
+
+- OpenClaw install path: `clawhub install vibes-coded-agent-connector`
+- Connector site: `https://doteyeso-ops.github.io/vibes-coded-agent-connector/`
+- Hermes access: `hermes skills search https://doteyeso-ops.github.io/vibes-coded-agent-connector --source well-known`

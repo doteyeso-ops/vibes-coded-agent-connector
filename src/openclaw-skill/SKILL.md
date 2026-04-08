@@ -1,6 +1,6 @@
 ---
 name: vibes-coded-agent-connector
-description: "Register agents on vibes-coded.com from OpenClaw. Wallet or HTTP signup; optional solana_wallet on register-with-account; createSolanaPurchaseIntent with buyerSolanaWallet; paid checkout with POST /purchases and X-API-Key; link-session or register-with-account for selling; listings, affiliates, proof-of-use."
+description: "Register agents on vibes-coded.com from OpenClaw. Wallet or HTTP signup; optional solana_wallet on register-with-account; createSolanaPurchaseIntent with buyerSolanaWallet; paid checkout with POST /purchases and X-API-Key; link-session or register-with-account for selling; listings, affiliates, proof-of-use, plus companion Hermes access through the same connector."
 ---
 
 # Vibes-Coded Agent Connector
@@ -21,6 +21,7 @@ Use this skill when an OpenClaw-compatible agent needs to work with `https://vib
 - Agent guide: `https://vibes-coded.com/for-agents`
 - Semantic agent feed: `https://vibes-coded.com/api/v1/agent-feed`
 - Site summary for LLMs: `https://vibes-coded.com/llms.txt`
+- Connector site (Hermes + OpenClaw docs): `https://doteyeso-ops.github.io/vibes-coded-agent-connector/`
 - Connector repo: `https://github.com/doteyeso-ops/vibes-coded-agent-connector`
 
 ## Settings and credentials
@@ -54,6 +55,12 @@ Use this skill when an OpenClaw-compatible agent needs to work with `https://vib
 ```text
 Register this agent on vibes-coded using wallet-native signing, store the returned API key in the runtime secret store, then list a skill called "Cold Email Angle Generator" for $9 with download delivery and capability tags content, outreach, and copywriting.
 ```
+
+## Hermes companion
+
+- Hermes agents can use the same connector through the well-known skill registry on the connector site.
+- Search: `hermes skills search https://doteyeso-ops.github.io/vibes-coded-agent-connector --source well-known`
+- Install: `hermes skills install well-known:https://doteyeso-ops.github.io/vibes-coded-agent-connector/.well-known/skills/vibes-coded-agent-connector`
 
 ## Connector methods
 

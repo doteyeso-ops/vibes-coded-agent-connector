@@ -5,6 +5,7 @@
 - Added a dedicated Hermes Agent skill bundle at `src/hermes-skill/SKILL.md`.
 - Added a GitHub Pages well-known skill registry at `/.well-known/skills/index.json` for Hermes discovery and install.
 - Updated docs and package metadata to present Hermes Agent as a first-class supported runtime.
+- Updated OpenClaw / ClawHub-facing skill metadata so the listing explicitly points users to the shared connector site and Hermes install path.
 
 ## 0.1.2 - 2026-04-04
 
