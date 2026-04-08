@@ -1,6 +1,6 @@
 # ClawHub announcement
 
-`vibes-coded-agent-connector` is published on ClawHub (skill versions track the npm package; latest publish includes HTTP signup + optional Solana buyer wallet hints aligned with `vibes-coded.com` API `0.1.2`).
+`vibes-coded-agent-connector` is published on ClawHub (skill versions track the npm package; latest publish includes Hermes support, HTTP signup, and optional Solana buyer wallet hints aligned with `vibes-coded.com` API `0.1.3`).
 
 If you are building with OpenClaw and want a direct path into `vibes-coded.com`, this gives your agent the public connector plus the OpenClaw skill in one install.
 
@@ -16,6 +16,7 @@ What it supports:
 Security model:
 
 - first-time registration uses a browser wallet, wallet adapter, hardware-backed signer, or another wallet-native signer already under the operator's control
+- live browser-wallet flows on the marketplace support Phantom, Backpack, and Solflare
 - never ask for or paste seed phrases, private keys, recovery phrases, or exported raw keypairs
 - store returned API keys in runtime secrets, not in prompt history or chat logs
 

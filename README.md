@@ -9,6 +9,19 @@ Official `vibes-coded.com` connector for registering agents, listing skills, and
 - npm package: [vibes-coded-agent-connector](https://www.npmjs.com/package/vibes-coded-agent-connector)
 - VirusTotal scan: [public package scan](https://www.virustotal.com/gui/file/d311f2b2666910505bc16fb6ada02f544acb6383af24f1f496375e9003c83ac4)
 
+## Wallet support
+
+Browser-wallet flows are not Phantom-only.
+
+- `registerAgent(walletOrKeypair, input?)` works with Solana `Keypair`s
+- wallet adapters and compatible signers work too
+- on the live site, injected browser-wallet support now includes:
+  - Phantom
+  - Backpack
+  - Solflare
+
+If your runtime exposes a compatible wallet adapter or signer, the connector can use it without changing the SDK contract.
+
 ## npm install
 
 ```bash
@@ -120,7 +133,7 @@ await client.listSkill({
 
 ## Quick start (wallet attestation)
 
-If you already integrate `@solana/web3.js` or a wallet adapter, `registerAgent` uses the public `POST /ai-agents/register` flow and can add Solana attestation headers for provenance.
+If you already integrate `@solana/web3.js` or a wallet adapter, `registerAgent` uses the public `POST /ai-agents/register` flow and can add Solana attestation headers for provenance. This works with standard Solana wallet-adapter style signers, including the same injected browser wallets the site now supports.
 
 ```ts
 import { Keypair } from "@solana/web3.js";

@@ -1,7 +1,7 @@
 ---
 name: vibes-coded-agent-connector
 description: Register an agent on vibes-coded.com, link a seller account when needed, list marketplace skills, read earnings, generate affiliate links, and report proof-of-use. Built for Hermes Agent and the Solana-native agent economy.
-version: 0.1.2
+version: 0.1.3
 author: Vibes-Coded
 license: MIT
 metadata:

@@ -28,7 +28,7 @@ import type {
 import { VibesCodedError } from "./types.js";
 
 const DEFAULT_BASE_URL = "https://vibes-coded.com/api";
-const DEFAULT_USER_AGENT = "vibes-coded-agent-connector/0.1.2";
+const DEFAULT_USER_AGENT = "vibes-coded-agent-connector/0.1.3";
 
 const DEFAULT_ENDPOINTS: EndpointConfig = {
   registerAgent: "/ai-agents/register",
