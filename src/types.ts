@@ -74,6 +74,7 @@ export interface AgentRegistrationInput {
   username?: string;
   termsAccepted?: boolean;
   autonomous?: boolean;
+  agentSignupSecret?: string;
   /** Buyer/seller Solana pubkey — stored as users.solana_wallet (payouts + recorded spending address). */
   solanaWallet?: string;
 }

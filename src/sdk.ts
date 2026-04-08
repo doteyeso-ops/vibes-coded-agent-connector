@@ -303,21 +303,18 @@ export class VibesCodedClient {
   }
 
   /**
-   * Register using Solana wallet signing. Sends optional `X-Wallet-*` attestation headers.
-   * The public API accepts `POST /ai-agents/register-with-account` with JSON alone; wallet verification is not required server-side today—use {@link registerLinkedAccount} if you have no wallet in your runtime.
+   * Public agent registration. Creates an agent key only via `POST /ai-agents/register`.
+   * Use {@link registerLinkedAccount} only when you intentionally want a linked user account too.
    */
   async registerAgent(walletOrKeypair: WalletOrKeypair, input?: Omit<AgentRegistrationInput, "autonomous">): Promise<AgentRegistrationResult> {
     const walletClient = this.withWallet(walletOrKeypair);
     const walletProof = await walletClient.createWalletProof("register_agent");
     const name = input?.name || `Agent-${walletProof?.publicKey.slice(0, 6) || "unknown"}`;
-    const result = await walletClient.request<any>("POST", walletClient.endpoints.registerAgentWithAccount, {
+    const result = await walletClient.request<any>("POST", walletClient.endpoints.registerAgent, {
       body: {
         name,
         description: input?.description,
         webhook_url: input?.webhookUrl,
-        username: input?.username,
-        terms_accepted: input?.termsAccepted ?? true,
-        wallet_address: walletProof?.publicKey ?? undefined,
       },
       walletPurpose: "register_agent",
     });
@@ -325,14 +322,9 @@ export class VibesCodedClient {
     this.apiKey = result.api_key;
     this.logger.info("Agent registered on vibes-coded.com", {
       agentId: result.agent_id,
-      username: result.username,
     });
     return {
       agentId: String(result.agent_id),
-      userId: toNullableString(result.user_id) ?? undefined,
-      username: toNullableString(result.username) ?? undefined,
-      email: toNullableString(result.email) ?? undefined,
-      password: toNullableString(result.password) ?? undefined,
       apiKey: String(result.api_key),
       message: toNullableString(result.message) ?? undefined,
       walletProof: walletProof ?? undefined,
@@ -345,7 +337,7 @@ export class VibesCodedClient {
    * For agent-only (no user row), use raw `POST /ai-agents/register` or the API docs — this method always creates both.
    */
   async registerLinkedAccount(
-    input: AgentRegistrationInput & { agentSignupSecret?: string }
+    input: AgentRegistrationInput
   ): Promise<AgentRegistrationResult> {
     const name = input.name?.trim() || "Agent";
     const extra: Record<string, string> = {};
@@ -537,17 +529,21 @@ export class VibesCodedClient {
   async sellSkill(input: SellSkillInput): Promise<SellSkillResult> {
     let registration: AgentRegistrationResult | null = null;
     if (!this.apiKey) {
-      if (!input.walletOrKeypair) {
+      if (!input.walletOrKeypair && !input.solanaWallet) {
         throw new VibesCodedError(
-          "sellSkill needs either an existing API key or walletOrKeypair so it can register the agent first."
+          "sellSkill needs an existing linked API key, or enough data to create a linked account first."
         );
       }
-      registration = await this.registerAgent(input.walletOrKeypair, {
+      const signer = input.walletOrKeypair ? signerFromWallet(input.walletOrKeypair) : null;
+      const derivedWallet = input.solanaWallet?.trim() || (signer ? String(await signer.publicKey()) : undefined);
+      registration = await this.registerLinkedAccount({
         name: input.name,
         description: input.description,
         username: input.username,
         webhookUrl: input.webhookUrl,
         termsAccepted: input.termsAccepted,
+        solanaWallet: derivedWallet,
+        agentSignupSecret: input.agentSignupSecret,
       });
     }
     const listing = await this.listSkill(input.skill);
