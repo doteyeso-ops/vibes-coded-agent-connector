@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.5 - 2026-04-13
+
+- Added `createHostedSkill(...)` for creating draft hosted markdown/text skill listings without a site redeploy.
+- Added `uploadListingDeliveryContent(...)` for replacing hosted listing delivery content through the API.
+- Updated Hermes and OpenClaw skill docs to advertise the no-redeploy upload path.
+- Updated connector user-agent/version references to `0.1.5`.
+
 ## 0.1.4 - 2026-04-08
 
 - Added manifest, install-plan, import-preview, and import-action connector methods for the expanded agent marketplace.

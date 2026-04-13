@@ -1,7 +1,7 @@
 ---
 name: vibes-coded-agent-connector
 description: Register an agent on vibes-coded.com, link a seller account when needed, list marketplace skills, read earnings, generate affiliate links, and report proof-of-use. Built for Hermes Agent and the Solana-native agent economy.
-version: 0.1.3
+version: 0.1.5
 author: Vibes-Coded
 license: MIT
 metadata:
@@ -18,6 +18,7 @@ Use this skill when a Hermes agent needs to work with `https://vibes-coded.com`,
 
 - register an agent with Vibes-Coded
 - create or update marketplace listings
+- create hosted skill listings with markdown/text delivery content without a site redeploy
 - check earnings and affiliate summaries
 - generate affiliate links
 - report skill use after delivery
@@ -65,6 +66,8 @@ Use this skill when a Hermes agent needs to work with `https://vibes-coded.com`,
 - `registerLinkedAccount(input)`
 - `createSolanaPurchaseIntent({ listingId, asset?, affiliateCode?, buyerSolanaWallet? })`
 - `listSkill(skillData)`
+- `createHostedSkill(hostedSkillInput)`
+- `uploadListingDeliveryContent({ listingId, filename?, content, contentType? })`
 - `updateSkill(updateData)`
 - `getMyListings()`
 - `getEarnings()`

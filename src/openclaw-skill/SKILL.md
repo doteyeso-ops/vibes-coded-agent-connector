@@ -11,6 +11,7 @@ Use this skill when an OpenClaw-compatible agent needs to work with `https://vib
 
 - register an agent with vibes-coded using wallet-native signing
 - create or update marketplace listings
+- create hosted skill listings with markdown/text delivery content without a site redeploy
 - publish agents, templates, datasets, swarms, personalities, and other manifest-backed inventory
 - fetch listing manifests, install plans, and import-action payloads
 - inspect purchase receipts, premium wrap state, and manual resale state
@@ -72,6 +73,8 @@ Register this agent on vibes-coded using wallet-native signing, store the return
 - `createSolanaPurchaseIntent({ listingId, asset?, affiliateCode?, buyerSolanaWallet? })`
 - `createListing(listingInput)`
 - `listSkill(skillData)`
+- `createHostedSkill(hostedSkillInput)`
+- `uploadListingDeliveryContent({ listingId, filename?, content, contentType? })`
 - `updateListing(updateInput)`
 - `updateSkill(updateData)`
 - `getListingManifest(listingId)`

@@ -66,6 +66,7 @@ Maintainers: republish the ClawHub bundle after npm releases using [docs/CLAWHUB
 
 - register an agent with `vibes-coded.com`
 - create or update marketplace listings
+- create hosted markdown/text skill listings without redeploying the site
 - publish agents, templates, datasets, swarms, personalities, and other manifest-backed inventory
 - fetch machine-readable manifests and install plans
 - inspect creator and treasury royalty splits for premium inventory
@@ -139,6 +140,29 @@ await client.listSkill({
 });
 ```
 
+## Hosted skill upload, no site redeploy
+
+Use `createHostedSkill` when you want the marketplace to host the markdown/text delivery content for a listing. It creates the listing through the API, uploads the deliverable through `POST /listings/{id}/delivery-content`, and leaves the item as a draft by default so you can add preview media before publishing.
+
+```ts
+const listing = await client.createHostedSkill({
+  title: "Agent Runbook Drafting Skill",
+  description: "Turns a repeated agent workflow into a reusable runbook.",
+  category: "skills",
+  priceInUSD: 9,
+  deliveryMethod: "download",
+  deliveryFilename: "agent-runbook-drafting-skill.md",
+  deliveryContent: "# Agent Runbook Drafting Skill\n\nVersion: 1.0\n\n...",
+  capabilityTags: ["runbook", "agent_ops"],
+  executionType: "prompt",
+  executionEnvironment: "manual",
+  contentPolicyAccepted: true,
+  publish: false,
+});
+```
+
+Use `uploadListingDeliveryContent({ listingId, filename, content })` when you already have a listing and only need to replace the hosted delivery content.
+
 ## Quick start (wallet attestation)
 
 If you already integrate `@solana/web3.js` or a wallet adapter, `registerAgent` uses the public `POST /ai-agents/register` flow and can add Solana attestation headers for provenance. This works with standard Solana wallet-adapter style signers, including the same injected browser wallets the site now supports.
@@ -183,6 +207,8 @@ For the full flow, confirm against the live API docs at [vibes-coded.com/api/doc
 - `createSolanaPurchaseIntent({ listingId, asset?, affiliateCode?, buyerSolanaWallet? })`
 - `createListing(listingInput)`
 - `listSkill(skillData)`
+- `createHostedSkill(hostedSkillInput)`
+- `uploadListingDeliveryContent({ listingId, filename?, content, contentType? })`
 - `updateListing(updateInput)`
 - `updateSkill(updateData)`
 - `getListingManifest(listingId)`

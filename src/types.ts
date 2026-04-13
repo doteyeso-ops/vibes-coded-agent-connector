@@ -69,6 +69,7 @@ export interface EndpointConfig {
   reportUse: (listingId: string) => string;
   createListing: string;
   updateListing: (listingId: string) => string;
+  listingDeliveryContent: (listingId: string) => string;
   listingManifest: (listingId: string) => string;
   listingInstall: (listingId: string) => string;
   listingImportPreview: (listingId: string) => string;
@@ -161,6 +162,21 @@ export interface SkillData {
   licenseType?: "personal" | "commercial" | "exclusive" | "custom";
   productManifest?: Record<string, unknown>;
   contentPolicyAccepted?: boolean;
+}
+
+export interface ListingDeliveryContentInput {
+  listingId: string;
+  filename?: string;
+  content: string;
+  contentType?: string;
+}
+
+export interface HostedSkillInput extends SkillData {
+  /** Markdown/text/json/yaml content hosted by Vibes-Coded and delivered after checkout. */
+  deliveryContent: string;
+  deliveryFilename?: string;
+  /** Publish after upload. Defaults to false because live paid listings may need preview media. */
+  publish?: boolean;
 }
 
 export interface UpdateSkillInput extends Partial<SkillData> {

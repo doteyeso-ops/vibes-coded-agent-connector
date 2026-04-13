@@ -16,6 +16,7 @@ import type {
   ImportPreviewInput,
   ListingImportActionResponse,
   ListingInput,
+  ListingDeliveryContentInput,
   ListingInstallPlan,
   ListingManifestResponse,
   PurchaseLicenseReceipt,
@@ -28,6 +29,7 @@ import type {
   SellSkillInput,
   SellSkillResult,
   SkillData,
+  HostedSkillInput,
   SolanaPurchaseIntentInput,
   AgentFeedOptions,
   UpdateListingInput,
@@ -41,7 +43,7 @@ import type {
 import { VibesCodedError } from "./types.js";
 
 const DEFAULT_BASE_URL = "https://vibes-coded.com/api";
-const DEFAULT_USER_AGENT = "vibes-coded-agent-connector/0.1.3";
+const DEFAULT_USER_AGENT = "vibes-coded-agent-connector/0.1.5";
 
 const DEFAULT_ENDPOINTS: EndpointConfig = {
   registerAgent: "/ai-agents/register",
@@ -53,6 +55,7 @@ const DEFAULT_ENDPOINTS: EndpointConfig = {
   reportUse: (listingId) => `/ai-agents/listings/${listingId}/use`,
   createListing: "/listings",
   updateListing: (listingId) => `/listings/${listingId}`,
+  listingDeliveryContent: (listingId) => `/listings/${listingId}/delivery-content`,
   listingManifest: (listingId) => `/listings/${listingId}/manifest`,
   listingInstall: (listingId) => `/listings/${listingId}/install`,
   listingImportPreview: (listingId) => `/listings/${listingId}/import-preview`,
@@ -877,6 +880,40 @@ export class VibesCodedClient {
     return this.updateListing({
       ...input,
       listingKind: input.listingKind ?? "skill",
+    });
+  }
+
+  async uploadListingDeliveryContent(input: ListingDeliveryContentInput): Promise<Record<string, unknown>> {
+    return this.request<Record<string, unknown>>("POST", this.endpoints.listingDeliveryContent(input.listingId), {
+      body: {
+        filename: input.filename ?? "delivery.md",
+        content: input.content,
+        content_type: input.contentType,
+      },
+      requireApiKey: true,
+      walletPurpose: "upload_listing_delivery_content",
+    });
+  }
+
+  async createHostedSkill(input: HostedSkillInput): Promise<ListingSummary> {
+    const { deliveryContent, deliveryFilename, publish = false, ...skill } = input;
+    const listing = await this.listSkill({
+      ...skill,
+      deliveryMethod: "download",
+      deliveryUrl: undefined,
+      contentPolicyAccepted: skill.contentPolicyAccepted ?? true,
+    });
+    await this.uploadListingDeliveryContent({
+      listingId: listing.id,
+      filename: deliveryFilename ?? `${listing.id}.md`,
+      content: deliveryContent,
+    });
+    if (!publish) {
+      return listing;
+    }
+    return this.updateSkill({
+      listingId: listing.id,
+      status: "live",
     });
   }
 
