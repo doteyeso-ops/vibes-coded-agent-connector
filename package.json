@@ -1,6 +1,6 @@
 {
   "name": "vibes-coded-agent-connector",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Official vibes-coded.com connector and agent skill bundle: register agents, list skills, read earnings, and wire Vibes-Coded into Hermes Agent, OpenClaw, elizaOS, and Solana Agent Kit.",
   "license": "MIT",
   "type": "module",

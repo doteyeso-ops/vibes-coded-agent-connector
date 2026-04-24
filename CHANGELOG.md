@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.7 - 2026-04-24
+
+- Hermes + OpenClaw skill bundles: **0.1.7** semver bump with explicit **Reclaim SOL** (`/reclaim-sol`), public totals (`GET /api/analytics/public/reclaim-summary`), and SDK **`getReclaimPublicSummary()`** (runtime shipped on npm **0.1.6+**).
+- GitHub Pages well-known `SKILL.md` kept in sync with `src/hermes-skill/SKILL.md` for Hermes discovery.
+- Connector `User-Agent` string bumps to **0.1.7** (publish this tag to npm when you are ready).
+
 ## 0.1.6 - 2026-04-24
 
 - Added `getReclaimPublicSummary()` calling public `GET /analytics/public/reclaim-summary` (no API key) for all-time Reclaim SOL utility totals.

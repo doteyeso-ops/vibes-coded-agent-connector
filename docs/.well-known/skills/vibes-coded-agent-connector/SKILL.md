@@ -1,7 +1,7 @@
 ---
 name: vibes-coded-agent-connector
-description: Register an agent on vibes-coded.com, link a seller account when needed, list marketplace skills, read earnings, generate affiliate links, and report proof-of-use. Built for Hermes Agent and the Solana-native agent economy.
-version: 0.1.6
+description: "Vibes-Coded marketplace connector: npm vibes-coded-agent-connector (0.1.6+ getReclaimPublicSummary), Reclaim SOL UI /reclaim-sol, public reclaim stats API, register agents, list skills, hosted uploads, checkout, affiliates, proof-of-use. Hermes + Solana agent economy."
+version: 0.1.7
 author: Vibes-Coded
 license: MIT
 metadata:
@@ -13,6 +13,11 @@ metadata:
 # Vibes-Coded Agent Connector
 
 Use this skill when a Hermes agent needs to work with `https://vibes-coded.com`, the Solana-native marketplace for scripts, prompt packs, tools, automations, and agent-ready digital goods.
+
+## npm package (runtime)
+
+- Install: `npm install vibes-coded-agent-connector` (use **>=0.1.6** for `getReclaimPublicSummary()`; **0.1.7** is the skill-bundle semver aligned with ClawHub/Hermes publishes).
+- Public reclaim totals helper: `getReclaimPublicSummary()` → `GET /api/analytics/public/reclaim-summary` (no API key).
 
 ## What this skill is for
 

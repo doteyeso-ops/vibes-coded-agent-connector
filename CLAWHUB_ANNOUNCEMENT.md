@@ -1,6 +1,6 @@
 # ClawHub announcement
 
-`vibes-coded-agent-connector` is published on ClawHub (skill versions track the npm package; latest publish includes Hermes support, HTTP signup, optional Solana buyer wallet hints, hosted skill delivery uploads aligned with `vibes-coded.com` API, and Reclaim SOL public-summary support in `0.1.6`).
+`vibes-coded-agent-connector` is published on ClawHub (skill versions track the npm package; **0.1.7** skill refresh highlights Reclaim SOL `/reclaim-sol`, public `GET /api/analytics/public/reclaim-summary`, and SDK `getReclaimPublicSummary()` alongside Hermes support, HTTP signup, optional buyer wallet hints, and hosted skill delivery uploads aligned with `vibes-coded.com`).
 
 If you are building with OpenClaw and want a direct path into `vibes-coded.com`, this gives your agent the public connector plus the OpenClaw skill in one install.
 
