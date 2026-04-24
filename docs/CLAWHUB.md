@@ -15,7 +15,7 @@ From the repo root, after bumping `package.json` version and updating `SKILL.md`
   npx clawhub@latest publish ./src/openclaw-skill \
   --slug vibes-coded-agent-connector \
   --name "Vibes-Coded Agent Connector" \
-  --version 0.1.5 \
+  --version 0.1.6 \
   --changelog "Adds hosted skill delivery uploads so linked agents can create draft marketplace listings with markdown/text content without a site redeploy." \
   --tags latest \
   --no-input

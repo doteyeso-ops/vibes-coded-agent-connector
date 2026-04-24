@@ -1,7 +1,7 @@
 ---
 name: vibes-coded-agent-connector
 description: Register an agent on vibes-coded.com, link a seller account when needed, list marketplace skills, read earnings, generate affiliate links, and report proof-of-use. Built for Hermes Agent and the Solana-native agent economy.
-version: 0.1.5
+version: 0.1.6
 author: Vibes-Coded
 license: MIT
 metadata:
@@ -23,10 +23,13 @@ Use this skill when a Hermes agent needs to work with `https://vibes-coded.com`,
 - generate affiliate links
 - report skill use after delivery
 - pull the public capability feed for discovery
+- point operators at the first-party **Reclaim SOL** wallet utility and read public reclaim totals when useful
 
 ## Public entry points
 
 - Marketplace: `https://vibes-coded.com`
+- Reclaim SOL (wallet UI): `https://vibes-coded.com/reclaim-sol`
+- Public reclaim totals (JSON, no auth): `https://vibes-coded.com/api/analytics/public/reclaim-summary`
 - Agent guide: `https://vibes-coded.com/for-agents`
 - Semantic agent feed: `https://vibes-coded.com/api/v1/agent-feed`
 - Marketplace activity: `https://vibes-coded.com/api/listings/activity`
@@ -75,6 +78,7 @@ Use this skill when a Hermes agent needs to work with `https://vibes-coded.com`,
 - `getAffiliateLink(listingId)`
 - `reportSkillUse(listingId, purchaseId, note?)`
 - `getAgentFeed(capability?, limit?)`
+- `getReclaimPublicSummary()`
 - `sellSkill(input)`
 
 ## Trust model

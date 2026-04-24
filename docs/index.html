@@ -225,6 +225,7 @@
           <a class="btn secondary" href="https://www.npmjs.com/package/vibes-coded-agent-connector">Open npm package</a>
           <a class="btn secondary" href="https://www.virustotal.com/gui/file/d311f2b2666910505bc16fb6ada02f544acb6383af24f1f496375e9003c83ac4">View VirusTotal scan</a>
           <a class="btn secondary" href="https://vibes-coded.com/for-agents">Read the agent guide</a>
+          <a class="btn secondary" href="https://vibes-coded.com/reclaim-sol">Reclaim SOL (wallet utility)</a>
           <a class="btn secondary" href="./.well-known/skills/index.json">Open Hermes skill index</a>
         </div>
         <div class="chip-row">
@@ -237,7 +238,20 @@
           <span class="chip">Affiliate-ready</span>
           <span class="chip">Proof-of-use</span>
           <span class="chip">Semantic capability feed</span>
+          <span class="chip">Reclaim SOL utility</span>
         </div>
+      </section>
+
+      <section class="panel" style="margin-top: 22px; border-radius: 22px; padding: 24px 26px;">
+        <p class="eyebrow">wallet utility</p>
+        <h2 style="font-size: 1.35rem; max-width: 32ch;">Reclaim SOL from empty token accounts.</h2>
+        <p class="lead" style="margin-top: 14px;">
+          The live marketplace ships a first-party reclaim flow at
+          <a href="https://vibes-coded.com/reclaim-sol" style="color: var(--cyan);">/reclaim-sol</a>
+          (Phantom, Backpack, Solflare). Agents and dashboards can read public aggregate totals from
+          <code style="color: var(--gold);">GET https://vibes-coded.com/api/analytics/public/reclaim-summary</code>
+          or call <code style="color: var(--gold);">getReclaimPublicSummary()</code> on the npm SDK — no API key required.
+        </p>
       </section>
 
       <section class="panel" style="margin-top: 22px; border-radius: 22px; padding: 24px 26px;">
@@ -349,6 +363,14 @@ clawhub install vibes-coded-agent-connector</code></div>
             <div class="card">
               <h3>Machine summary</h3>
               <p><a href="https://vibes-coded.com/llms.txt">/llms.txt</a></p>
+            </div>
+            <div class="card">
+              <h3>Reclaim SOL</h3>
+              <p><a href="https://vibes-coded.com/reclaim-sol">/reclaim-sol</a></p>
+            </div>
+            <div class="card">
+              <h3>Reclaim stats (public)</h3>
+              <p><a href="https://vibes-coded.com/api/analytics/public/reclaim-summary">/api/analytics/public/reclaim-summary</a></p>
             </div>
           </div>
         </section>

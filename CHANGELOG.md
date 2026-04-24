@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.6 - 2026-04-24
+
+- Added `getReclaimPublicSummary()` calling public `GET /analytics/public/reclaim-summary` (no API key) for all-time Reclaim SOL utility totals.
+- Documented the first-party reclaim UI at `https://vibes-coded.com/reclaim-sol` across README, GitHub Pages `docs/index.html`, and Hermes/OpenClaw skill bundles.
+
 ## 0.1.5 - 2026-04-13
 
 - Added `createHostedSkill(...)` for creating draft hosted markdown/text skill listings without a site redeploy.

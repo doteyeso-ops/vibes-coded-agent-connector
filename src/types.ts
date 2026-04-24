@@ -86,6 +86,22 @@ export interface EndpointConfig {
   commerceSummary: string;
   agentFeed: string;
   solanaPurchaseIntent: string;
+  /** GET /analytics/public/reclaim-summary — public reclaim utility totals (no API key). */
+  reclaimPublicSummary: string;
+}
+
+/** Normalized response from GET /analytics/public/reclaim-summary. */
+export interface ReclaimPublicSummary {
+  runsTotal: number;
+  accountsClosedTotal: number;
+  grossLamportsTotal: number;
+  feeLamportsTotal: number;
+  netLamportsTotal: number;
+  grossSolTotal: number;
+  feeSolTotal: number;
+  netSolTotal: number;
+  latestEventAt: string | null;
+  raw: Record<string, unknown>;
 }
 
 export interface VibesCodedClientOptions {

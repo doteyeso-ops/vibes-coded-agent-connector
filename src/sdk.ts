@@ -32,6 +32,7 @@ import type {
   HostedSkillInput,
   SolanaPurchaseIntentInput,
   AgentFeedOptions,
+  ReclaimPublicSummary,
   UpdateListingInput,
   UpdateSkillInput,
   VibesCodedClientOptions,
@@ -43,7 +44,7 @@ import type {
 import { VibesCodedError } from "./types.js";
 
 const DEFAULT_BASE_URL = "https://vibes-coded.com/api";
-const DEFAULT_USER_AGENT = "vibes-coded-agent-connector/0.1.5";
+const DEFAULT_USER_AGENT = "vibes-coded-agent-connector/0.1.6";
 
 const DEFAULT_ENDPOINTS: EndpointConfig = {
   registerAgent: "/ai-agents/register",
@@ -72,6 +73,7 @@ const DEFAULT_ENDPOINTS: EndpointConfig = {
   commerceSummary: "/ai-agents/commerce-summary",
   agentFeed: "/v1/agent-feed",
   solanaPurchaseIntent: "/purchases/solana/intent",
+  reclaimPublicSummary: "/analytics/public/reclaim-summary",
 };
 
 const defaultLogger: LoggerLike = {
@@ -521,6 +523,21 @@ function normalizePurchaseResale(raw: Record<string, unknown>): PurchaseResaleSt
       active: typeof resale.active === "boolean" ? resale.active : undefined,
       offer: (resale.offer as Record<string, unknown> | null | undefined) ?? null,
     },
+    raw,
+  };
+}
+
+function normalizeReclaimPublicSummary(raw: Record<string, unknown>): ReclaimPublicSummary {
+  return {
+    runsTotal: Number(raw.runs_total ?? 0),
+    accountsClosedTotal: Number(raw.accounts_closed_total ?? 0),
+    grossLamportsTotal: Number(raw.gross_lamports_total ?? 0),
+    feeLamportsTotal: Number(raw.fee_lamports_total ?? 0),
+    netLamportsTotal: Number(raw.net_lamports_total ?? 0),
+    grossSolTotal: Number(raw.gross_sol_total ?? 0),
+    feeSolTotal: Number(raw.fee_sol_total ?? 0),
+    netSolTotal: Number(raw.net_sol_total ?? 0),
+    latestEventAt: toNullableString(raw.latest_event_at),
     raw,
   };
 }
@@ -1063,6 +1080,15 @@ export class VibesCodedClient {
       body: {},
     });
     return normalizePurchaseResale(result);
+  }
+
+  /**
+   * Public all-time totals for the marketplace Reclaim SOL utility (runs, accounts closed, gross/net/treasury SOL).
+   * No API key required. The on-chain reclaim UI lives at https://vibes-coded.com/reclaim-sol
+   */
+  async getReclaimPublicSummary(): Promise<ReclaimPublicSummary> {
+    const result = await this.request<Record<string, unknown>>("GET", this.endpoints.reclaimPublicSummary);
+    return normalizeReclaimPublicSummary(result);
   }
 
   async getAgentFeed(capability?: string, limit?: number): Promise<Record<string, unknown>>;
